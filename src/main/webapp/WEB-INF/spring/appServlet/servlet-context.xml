@@ -35,7 +35,7 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
 		<property name="brokerURL">
-			<value>tcp://localhost:61616</value>
+			<value>tcp://localhost:6161</value>
 		</property>
 	</bean>
 	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
