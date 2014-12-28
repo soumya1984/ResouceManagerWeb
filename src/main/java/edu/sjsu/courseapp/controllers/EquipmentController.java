@@ -73,5 +73,18 @@ public class EquipmentController {
 		// return modelView;
 
 	}
+	/***
+	 * product class
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public ModelAndView loadIndex() {
+		ModelAndView modelView;
+
+		modelView = new ModelAndView("index");
+		//modelView.addObject("index", new Product());
+		return modelView;
+	}
 
 }
