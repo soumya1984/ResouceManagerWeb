@@ -43,47 +43,11 @@ public class EquipmentController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/showWhereToBuy", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView newProductDataForm() {
 		ModelAndView modelView;
-
-		modelView = new ModelAndView("showWheretoBuy");
-		modelView.addObject("product", new Product());
-		return modelView;
-	}
-
-	@RequestMapping(value = "/search/name", method = RequestMethod.POST)
-	public ModelAndView searchProductbyName(@Valid Product product,
-			BindingResult result, HttpSession session) throws Exception {
-		List<Product> productbb = new ArrayList<Product>();
-		List<ProductEbay> productEbay = new ArrayList<ProductEbay>();
-		//ModelAndView modelView = null;
-		System.out.println("reached");
-		if (null != product.getName())
-		callBestBuyApi = new BestBuyHttpClient();
-		callBestBuyApi.setProductservice(productservice);
-		productbb=callBestBuyApi.getBestBuyProductInformations(product.getName());
-
-
-		return null;
-		// List products=productservice.getProductByName(product.getName());
-		// modelView = new ModelAndView("resultShowWheretoBuy");
-
-		// modelView.addObject("product", products);
-		// return modelView;
-
-	}
-	/***
-	 * product class
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView loadIndex() {
-		ModelAndView modelView;
-
 		modelView = new ModelAndView("index");
-		//modelView.addObject("index", new Product());
+		//modelView.addObject("product", new Product());
 		return modelView;
 	}
 
