@@ -3,6 +3,7 @@ package edu.sjsu.courseapp.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.JMSException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sjsu.courseapp.jms.SimpleMessageProducer;
+import com.sjsu.courseapp.jms.SimpleMessageReceiver;
 import com.sjsu.review.httpclient.BestBuyHttpClient;
 import com.sjsu.review.httpclient.HttpClientInterface;
 
