@@ -13,7 +13,7 @@ import com.sjsu.courseapp.jms.SimpleMessageProducer;
 import edu.sjsu.courseapp.services.ProductService;
 
 @Controller
-public class EquipmentController {
+public class CloudBaseController {
 
 	@Autowired
 	ProductService productservice;
