@@ -36,16 +36,10 @@ public class CloudBaseController {
 	 * function to call the requst genarator 
 	 * @return
 	 */
-	@RequestMapping(value = "/requestGenerator", method = RequestMethod.POST)
+	@RequestMapping(value = "/generator", method = RequestMethod.POST)
 	public ModelAndView newRequestGenerator() {
-		ModelAndView modelView=null;
-		try {
-		      SimpleMessageProducer messageProducer = (SimpleMessageProducer) context.getBean("messageProducer");
-		      messageProducer.sendMessages();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ModelAndView modelView;
+		modelView = new ModelAndView("genarator");
 		return modelView;
 	}
 }
