@@ -27,12 +27,14 @@
 </head>
 <body>
 <script src="http://code.jquery.com/jquery.js"></script>
-	<!-- If no online access, fallback to our hardcoded version of jQuery -->
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="includes/js/jquery-1.8.2.min.js"><\/script>');
-</script>
+<style type="text/css">
+.btn span.glyphicon {    			
+	opacity: 0;				
+}
+.btn.active span.glyphicon {				
+	opacity: 1;				
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
     var i=1;
@@ -52,49 +54,207 @@ $("#delete_row").click(function(){
 
 });
 </script>
-
 <div class="container">
-    <div class="row clearfix">
-		<div class="col-md-12 column">
-			<table class="table table-bordered table-hover" id="tab_logic">
-				<thead>
-					<tr >
-						<th class="text-center">
-							#
-						</th>
-						<th class="text-center">
-							Name
-						</th>
-						<th class="text-center">
-							Mail
-						</th>
-						<th class="text-center">
-							Mobile
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr id='addr0'>
-						<td>
-						1
-						</td>
-						<td>
-						<input type="text" name='name0'  placeholder='Name' class="form-control"/>
-						</td>
-						<td>
-						<input type="text" name='mail0' placeholder='Mail' class="form-control"/>
-						</td>
-						<td>
-						<input type="text" name='mobile0' placeholder='Mobile' class="form-control"/>
-						</td>
-					</tr>
-                    <tr id='addr1'></tr>
-				</tbody>
-			</table>
+	<div class="row">
+        <div class="span8">
+    		<form action="billing" method="post" class="form-horizontal" id="billingform" accept-charset="utf-8">
+    			<div class="control-group">
+    				<label for="email" class="control-label">	
+    					Requestor  E-Mail Address 
+    				</label>
+    				<div class="controls">
+    					<input name="email" type="email" value="" id="email">
+    					<span class="help-inline">  Confirmation mail will be send here..?</span>
+    				</div>
+    			</div>
+     
+    			<div class="control-group">
+    				<label for="memory" class="control-label">	
+    					Memory 
+    				</label>
+    				<div class="controls">	<select name="Memory" id="memory">
+    						<option value=""></option>
+    						<option value="8">8GB</option>
+    						<option value="16">16GB</option>
+    						<option value="32">32GB</option>
+    						<option value="64">64GB</option>
+    						<option value="128">128GB</option>
+    						</select>
+    				</div>
+    			</div>
+     
+ 			<div class="control-group">
+    				<label for="request" class="control-label">	
+    					Number Of Request  
+    				</label>
+    				<div class="controls">	<select name="request" id="request">
+    						<option value=""></option>
+    						<option value="100">100</option>
+    						<option value="500">500</option>
+    						<option value="1000">100</option>
+    						</select>
+    				</div>
+    			</div>
+     
+ 			<div class="control-group">
+    				<label for="cpu" class="control-label">	
+    					Number Of CPU  
+    				</label>
+    				<div class="controls">	<select name="request" id="request">
+    						<option value=""></option>
+    						<option value="1">1</option>
+    						<option value="2">2</option>
+    						<option value="3">3</option>
+    						<option value="4">4</option>
+    						<option value="5">5</option>
+    						<option value="6">6</option>
+    						</select>
+    				</div>
+    			</div>
+    			
+    			<div class="control-group">
+    				<label for="country" class="control-label">	
+    					Country
+    				</label>
+    				<div class="controls">
+    					<select name="country" id="country">
+    						<option value=""></option>
+    						<option value="AR">Argentina</option>
+    						<option value="AU">Australia</option>
+    						<option value="AT">Austria</option>
+    						<option value="BY">Belarus</option>
+    						<option value="BE">Belgium</option>
+    						<option value="BA">Bosnia and Herzegovina</option>
+    						<option value="BR">Brazil</option>
+    						<option value="BG">Bulgaria</option>
+    						<option value="CA">Canada</option>
+    						<option value="CL">Chile</option>
+    						<option value="CN">China</option>
+    						<option value="CO">Colombia</option>
+    						<option value="CR">Costa Rica</option>
+    						<option value="HR">Croatia</option>
+    						<option value="CU">Cuba</option>
+    						<option value="CY">Cyprus</option>
+    						<option value="CZ">Czech Republic</option>
+    						<option value="DK">Denmark</option>
+    						<option value="DO">Dominican Republic</option>
+    						<option value="EG">Egypt</option>
+    						<option value="EE">Estonia</option>
+    						<option value="FI">Finland</option>
+    						<option value="FR">France</option>
+    						<option value="GE">Georgia</option>
+    						<option value="DE">Germany</option>
+    						<option value="GI">Gibraltar</option>
+    						<option value="GR">Greece</option>
+    						<option value="HK">Hong Kong S.A.R., China</option>
+    						<option value="HU">Hungary</option>
+    						<option value="IS">Iceland</option>
+    						<option value="IN">India</option>
+    						<option value="ID">Indonesia</option>
+    						<option value="IR">Iran</option>
+    						<option value="IQ">Iraq</option>
+    						<option value="IE">Ireland</option>
+    						<option value="IL">Israel</option>
+    						<option value="IT">Italy</option>
+    						<option value="JM">Jamaica</option>
+    						<option value="JP">Japan</option>
+    						<option value="KZ">Kazakhstan</option>
+    						<option value="KW">Kuwait</option>
+    						<option value="KG">Kyrgyzstan</option>
+    						<option value="LA">Laos</option>
+    						<option value="LV">Latvia</option>
+    						<option value="LB">Lebanon</option>
+    						<option value="LT">Lithuania</option>
+    						<option value="LU">Luxembourg</option>
+    						<option value="MK">Macedonia</option>
+    						<option value="MY">Malaysia</option>
+    						<option value="MT">Malta</option>
+    						<option value="MX">Mexico</option>
+    						<option value="MD">Moldova</option>
+    						<option value="MC">Monaco</option>
+    						<option value="ME">Montenegro</option>
+    						<option value="MA">Morocco</option>
+    						<option value="NL">Netherlands</option>
+    						<option value="NZ">New Zealand</option>
+    						<option value="NI">Nicaragua</option>
+    						<option value="KP">North Korea</option>
+    						<option value="NO">Norway</option>
+    						<option value="PK">Pakistan</option>
+    						<option value="PS">Palestinian Territory</option>
+    						<option value="PE">Peru</option>
+    						<option value="PH">Philippines</option>
+    						<option value="PL">Poland</option>
+    						<option value="PT">Portugal</option>
+    						<option value="PR">Puerto Rico</option>
+    						<option value="QA">Qatar</option>
+    						<option value="RO">Romania</option>
+    						<option value="RU">Russia</option>
+    						<option value="SA">Saudi Arabia</option>
+    						<option value="RS">Serbia</option>
+    						<option value="SG">Singapore</option>
+    						<option value="SK">Slovakia</option>
+    						<option value="SI">Slovenia</option>
+    						<option value="ZA">South Africa</option>
+    						<option value="KR">South Korea</option>
+    						<option value="ES">Spain</option>
+    						<option value="LK">Sri Lanka</option>
+    						<option value="SE">Sweden</option>
+    						<option value="CH">Switzerland</option>
+    						<option value="TW">Taiwan</option>
+    						<option value="TH">Thailand</option>
+    						<option value="TN">Tunisia</option>
+    						<option value="TR">Turkey</option>
+    						<option value="UA">Ukraine</option>
+    						<option value="AE">United Arab Emirates</option>
+    						<option value="GB">United Kingdom</option>
+    						<option value="US">USA</option>
+    						<option value="UZ">Uzbekistan</option>
+    						<option value="VN">Vietnam</option>
+    					</select>
+    				</div>
+    			</div>
+    			<div class="control-group">
+    				<label for="address" class="control-label">	
+    					Select the Algorithm you would ike to use.
+    				</label>
+    				<div class="controls">	
+    				</div>
+    			</div>
+    			<div class="container">			
+
+		
+		<div class="btn-group" data-toggle="buttons">
+			
+			<label class="btn btn-success active">
+				<input type="radio" name="options" id="option1" autocomplete="off" chacked>
+				<span class="glyphicon glyphicon-ok">Ant Colony...</span>
+			</label>
+
+			<label class="btn btn-primary">
+				<input type="radio" name="options" id="option2" autocomplete="off">
+				<span class="glyphicon glyphicon-ok">PSO...</span>
+			</label>
+
+			<label class="btn btn-info">
+				<input type="radio" name="options" id="option3" autocomplete="off">
+				<span class="glyphicon glyphicon-ok">Holly Bee...</span>
+			</label>
+
+			<label class="btn btn-default">
+				<input type="radio" name="options" id="option4" autocomplete="off">
+				<span class="glyphicon glyphicon-ok">Geo Loction...</span>
+			</label>		
 		</div>
 	</div>
-	<a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+         		<br/><br/><br/>	<br/><br/><br/>
+    			<div class="form-actions">
+    				<button type="submit" class="btn btn-large btn-primary">Submit Request Genarator</button>
+    			</div>
+    		</form>
+    	</div> <!-- .span8 -->
+	</div>
 </div>
+
 	<!-- Bootstrap JS -->
 	<script src="${context}/resources/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Custom JS -->
