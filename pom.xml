@@ -326,6 +326,23 @@
 			<version>2.4</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- AWS -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-support</artifactId>
+			<version>1.9.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.9.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.6</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

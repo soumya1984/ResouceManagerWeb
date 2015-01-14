@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sjsu.courseapp.jms.SimpleMessageProducer;
-import com.sjsu.courseapp.pojo.ResourceRequest;
 
 import edu.sjsu.courseapp.services.ProductService;
 
