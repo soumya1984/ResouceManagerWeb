@@ -1,5 +1,7 @@
-<%@ include file="./include.jsp"%>
-<%@ page session="false" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="context" scope="request" value="<%= request.getContextPath()%>" />
 <html>
 <!-- Bootstrap CSS -->
@@ -12,9 +14,10 @@
 	rel="stylesheet">
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
 body{
-               //background-image: url("${context}/resources/images/MobileCloudComputing.png");
+               background-image: url("${context}/resources/images/Clouds.jpg");
                 background-color: lightblue;
                 //border: 3px dotted black;
                 margin: 10px;
@@ -23,7 +26,7 @@ body{
                 margin:auto;
             }
             section {
-            	//background-image: url("${context}/resources/images/MobileCloudComputing.png");
+            	
                 background-color: white;
                 //border: 2px solid black;
                 width: 700px;
@@ -45,44 +48,35 @@ body{
                 margin: 0; /* all four sides */
                 padding-left: 15px;
             }
-            a {
-    				font-size:200%;
-			}
 </style>
-	<title>Mobile Cloud Resource Mangement System</title>
-	<link rel="stylesheet" type="text/css" href="../resources/css/nav.css" />
-	
+<title>Clouds</title>
 </head>
-<body background="${context}/resources/images/MobileCloudComputing.png">
+<body>
 <section>
-
-<center >
-<h1><font color="darkblue" size="10">Mobile Cloud Resource Mangement System</font> </h1>
-	
-<br>
-<br>
-<br>
-<table class="table table-hover">
+<center>
+<h1><font color="darkblue" size="6">Clouds</font></h1>
+<table  cellpadding="10" class="table table-striped">
 <tr>
-<td ><a href="${context}/clouds">Clouds</a>&nbsp&nbsp&nbsp&nbsp</td>
-<td><a href="${context}/instances">Instances</a>&nbsp&nbsp&nbsp&nbsp</td>
-<td><a href="${context}/users">Users & Billing</a>&nbsp&nbsp&nbsp&nbsp</td>
-<td><a href="${context}/rates">Cost</a>&nbsp&nbsp&nbsp&nbsp</td>
+	
+	<th> Cloud ID </th>
+	<th> Cloud Name </th>
+	<th> Public IP </th>
+	<th> Private IP </th>
+	<th> Geo Location </th>
+
 </tr>
-</font>
+	<c:forEach var="cloud_list" items="${cloud_list}"  >
+		<tr>
+		   <td>${cloud_list.getCloudid()}</td>
+		   <td>${cloud_list.getName()}</td>
+		   <td>${cloud_list.getPublicip()}</td>
+		   <td>${cloud_list.getPrivateip()}</td>
+		   <td>${cloud_list.getGeolocation()}</td>
+		</tr>
+	</c:forEach>
 </table>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<a href="${context}/home">Back to Home</a>
 </center>
-<h4 style="background-color:White; text-align:center;color:#3B5998; font-family: Times New Roman;font-size:10;">Cloud Technologies Course CMPE 281 at SJSU</h4>
 </section>
-
-
-</center>
-</div>
 </body>
 </html>

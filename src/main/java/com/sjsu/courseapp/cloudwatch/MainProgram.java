@@ -1,9 +1,8 @@
 package com.sjsu.courseapp.cloudwatch;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.PropertiesCredentials;
@@ -24,7 +23,7 @@ public class MainProgram {
 			System.out.println("::Server Name::"+cws.getRequestMetricsCollector());
 			
 			AmazonEC2 ec2=getEC2();
-			System.out.println("::instance status"+ec2.describeInstanceStatus());
+			System.out.println("::instance status"+ec2.describeInstances());
 			System.out.println("::Server Name::"+cws.getRequestMetricsCollector());
 
 			// createNewElasticInstance("User1");

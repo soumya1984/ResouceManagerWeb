@@ -15,6 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sjsu.courseapp.jms.SimpleMessageProducer;
 
+import edu.sjsu.courseapp.dao.jdbc.CloudDaoJdbcImpl;
+import edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl;
+import edu.sjsu.courseapp.dao.jdbc.RateDaoJdbcImpl;
+import edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl;
 import edu.sjsu.courseapp.services.ProductService;
 
 @Controller
@@ -23,6 +27,7 @@ public class CloudBaseController {
 	@Autowired
 	ProductService productservice;
 	private static ApplicationContext context = null;
+	private static  ApplicationContext context1 ;
 	// private static ApplicationContext =null;
 	static SimpleMessageProducer simpleMessageProducer=null;
 	Random rand = new Random();
@@ -30,6 +35,7 @@ public class CloudBaseController {
 		context = new ClassPathXmlApplicationContext("producer-jms-context.xml");
 		simpleMessageProducer = (SimpleMessageProducer) context
 				.getBean("messageProducer");
+		context1= new ClassPathXmlApplicationContext("root-context.xml");
 	}
 
 	/**
@@ -92,5 +98,107 @@ public class CloudBaseController {
 		modelView = new ModelAndView("genarator");
 		return modelView;
 	}
+	/**
+	 * Load the clouds page jsp 
+	 * @return
+	 */
+	@RequestMapping(value = "/clouds", method = RequestMethod.GET)
+	public ModelAndView newCloudDataForm() {
+		ModelAndView modelView=null;
+		try {
+			modelView = new ModelAndView("clouds");
+			CloudDaoJdbcImpl cs = (CloudDaoJdbcImpl)context1.getBean("cloudServ");
+			modelView.addObject("cloud_list", cs.getCloudallList());
+			return modelView;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelView;
+	}
+	
+	
+	/**
+	 * Load the instances page jsp 
+	 * @return
+	 */
+	@RequestMapping(value = "/instances", method = RequestMethod.GET)
+	public ModelAndView newInstanceDataForm() {
+		ModelAndView modelView=null;
+		try {
+			modelView = new ModelAndView("instances");
+			InstanceDaoJdbcImpl cs = (InstanceDaoJdbcImpl)context1.getBean("instanceServ");
+			modelView.addObject("instance_list", cs.getInstanceallList());
+			return modelView;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelView;
+	}
+	
+	
+	/**
+	 * Load the users page jsp 
+	 * @return
+	 */
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
+	public ModelAndView newUserDataForm() {
+		ModelAndView modelView=null;
+		try {
+			modelView = new ModelAndView("users");
+			UserDaoJdbcImpl cs = (UserDaoJdbcImpl)context1.getBean("userServ");
+			modelView.addObject("user_list", cs.getUserallList());
+			return modelView;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelView;
+	}
+	
+	/**
+	 * Load the rates page jsp 
+	 * @return
+	 */
+	@RequestMapping(value = "/rates", method = RequestMethod.GET)
+	public ModelAndView newRateDataForm() {
+		ModelAndView modelView=null;
+		try {
+			modelView = new ModelAndView("rates");
+			RateDaoJdbcImpl cs = (RateDaoJdbcImpl)context1.getBean("rateServ");
+			modelView.addObject("rate_list", cs.getRateallList());
+			return modelView;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelView;
+	}
+	
+	/**
+	 * Load the home page jsp 
+	 * @return
+	 */
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public ModelAndView newHomeDataForm() {
+		ModelAndView modelView=null;
+		try {
+			modelView = new ModelAndView("home");
+			return modelView;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return modelView;
+	}
+	
 
-}
+}	
+	
+

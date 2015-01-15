@@ -5,6 +5,9 @@ package com.sjsu.courseapp.pojo;
 public class ResourceRequest {
  
 	private int requestId;
+	private int userId;
+	private String os;
+	private String Type; 
 	private int locationId;
 	private int cpu_units;	
 	private int memory;

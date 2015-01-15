@@ -10,7 +10,7 @@ public class DBConnection {
 	private static Connection con;
 	private int QUERIES = 0;
 	private static boolean conFree = true;
-	private static String DatabaseURL = "jdbc:mysql://localhost:3306/whereToBuy";
+	private static String DatabaseURL = "jdbc:mysql://localhost:3306/test";
 	private static String  DatabaseDRIVER = "com.mysql.jdbc.Driver";
 	private static String DatabaseUser = "root";
 	private static String DatabasePassword = "";
