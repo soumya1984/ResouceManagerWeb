@@ -61,7 +61,7 @@
 							class="sr-only">(current)</span></a></li>
 					<li>
 					<form action="${context}/generator" method="post">
-					<a href="javascript:;" onclick="parentNode.submit();">Dynamic Request Generator</a>
+					<a href="javascript:;" onclick="parentNode.submit();">Reports</a>
 					</form>
 					</li>
 					<li><a href="#">Analytics</a></li>
