@@ -16,7 +16,7 @@
 	value="<%=request.getContextPath()%>" />
 <%@ page import="java.util.List"%>
 <%@ page import="edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl"%>
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
