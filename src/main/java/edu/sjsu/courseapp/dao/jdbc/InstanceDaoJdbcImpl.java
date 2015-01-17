@@ -3,6 +3,7 @@ package edu.sjsu.courseapp.dao.jdbc;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -124,6 +125,29 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 		params.addValue("userid", userid);
 		rowsAffected = namedTemplate.update(sql, params);
 		return rowsAffected;
+	}
+
+	@Override
+	public Map<Integer, Double> getBillPerUser() {
+		String sql = "select * from test.instance order by userid asc";
+		List<Instance> instanceList = jdbcTemplate
+				.query(sql, instanceRowMapper);
+		Map<Integer, Double>  map = new TreeMap<Integer, Double>();
+		for(Instance instance:instanceList){
+			double amount;
+			amount = instance.getInstanceid()*2;
+			amount =instance.getUptime()*amount;
+			if(map.get(instance.getUserid())!=null){
+			  double tempAmount = map.get(instance.getUserid());
+			  amount = amount + tempAmount;
+			  map.put(instance.getUserid(), amount);
+			}else{
+				 map.put(instance.getUserid(), amount);
+			}
+			System.out.println(amount);
+		}
+
+		return map;
 	}
 
 	// public int updateTotalOrders(Product prod, int change) {

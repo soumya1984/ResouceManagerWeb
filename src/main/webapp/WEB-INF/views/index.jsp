@@ -1,3 +1,4 @@
+<%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="edu.sjsu.courseapp.domain.Instance"%>
@@ -79,49 +80,59 @@
 <body>
 	<%
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"root-context.xml");
-		InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
-				.getBean("instanceServ");
-		int instanceCount = instance.getInstanceCount();
-		//get the list of the instances 
+			"root-context.xml");
+			InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
+			.getBean("instanceServ");
+			int instanceCount = instance.getInstanceCount();
+			//get the list of the instances 
 
-		List<Instance> instanceList = instance.getInstanceallList();
-
-		CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
-				.getBean("cloudServ");
-		int cloudCount = cloud.getCloudCount();
-
-		UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
-				.getBean("userServ");
-		int userCloud = user.getUserCount();
-		//get all the active instances ...
-		Map<String,Integer> instanceMap = new HashMap<String,Integer>(); 
-		for(Instance instanceObj:instanceList) {
-		    if( instanceObj.getStatus().equals("Active")){
-		    	Integer value =instanceMap.get("Active");
-		    	if(value==null){
-		    		instanceMap.put("Active", 1);
-		    	}else{
-		    	   instanceMap.put("Active", value+1);
-		    	}
-		    }else{	    	
-		    	Integer value =instanceMap.get("Inactive");
-		    	if(value==null){
-		    		instanceMap.put("Inactive", 1);
-		    	}
-		    	instanceMap.put("Inactive", value+1);
-		    }
+			List<Instance> instanceList = instance.getInstanceallList();
 			
-				}
-												   
+			Map<Integer, Double> billMap=instance.getBillPerUser();
+			double totalCharge=0;
+			for(Map.Entry map:billMap.entrySet()){
+		totalCharge=totalCharge+(Double) map.getValue();
+			}
+
+
+			CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
+			.getBean("cloudServ");
+			int cloudCount = cloud.getCloudCount();
+
+			UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
+			.getBean("userServ");
+			int userCloud = user.getUserCount();
+			//get all the active instances ...
+			Map<String,Integer> instanceMap = new HashMap<String,Integer>(); 
+			for(Instance instanceObj:instanceList) {
+			    if( instanceObj.getStatus().equals("Active")){
+			    	Integer value =instanceMap.get("Active");
+			    	if(value==null){
+			    		instanceMap.put("Active", 1);
+			    	}else{
+			    	   instanceMap.put("Active", value+1);
+			    	}
+			    }else if(instanceObj.getStatus().equals("Inactive")){	    	
+			    	Integer inactiveValue =instanceMap.get("Inactive");
+			    	if(inactiveValue==null){
+			    		instanceMap.put("Inactive", 1);
+			    	}else{
+			    	instanceMap.put("Inactive",inactiveValue+1);
+			    	}
+			    }
 		
-		
+			}
+			int inactive=0,active=0;
+			if(instanceMap.get("Active")!=null)
+			{
+		active= instanceMap.get("Active");
+			}
+			if(instanceMap.get("Inactive")!=null)
+			{
+		inactive= instanceMap.get("Inactive");
+			}
+		//	inactive = instanceMap.get("Inactive");
 	%>
-	
-	<c:set var="active" scope="request"
-	value="<%=instanceMap.get(\"Active\")%>" />
-	<c:set var="inactive" scope="request"
-	value="<%=instanceMap.get(\"Inactive\")%>" />
 
 	<div id="wrapper">
 
@@ -235,9 +246,9 @@
 				<li><form action="${context}/generator" method="post">
 						<a href="javascript:;" onclick="parentNode.submit();"><i
 							class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-					</form></li>
-				<li><a href="tables.html"><i class="fa fa-fw fa-table"></i>
-						Tables</a></li>
+					</form></li><br></br>
+				<li><form action="${context}/loadChart" method="post"><a href="javascript:;" onclick="parentNode.submit();"><i class="fa fa-fw fa-table"></i>
+						Tables</a></form></li>
 				<li><a href="forms.html"><i class="fa fa-fw fa-edit"></i>
 						Forms</a></li>
 				<li><a href="bootstrap-elements.html"><i
@@ -300,9 +311,8 @@
 										<i class="fa fa-comments fa-5x"></i>
 									</div>
 									<div class="col-xs-9 text-right">
-										<div class="huge"></div>
-										<div><%=instanceCount%></div>
-										<div>Clouds</div>
+										<div class="huge"><%=cloudCount%></div>
+										<div class="huge">Clouds</div>
 									</div>
 								</div>
 							</div>
@@ -323,8 +333,8 @@
 										<i class="fa fa-tasks fa-5x"></i>
 									</div>
 									<div class="col-xs-9 text-right">
-										<div class="huge"><%=cloudCount%></div>
-										<div>Instances!</div>
+										<div class="huge"><%=instanceCount%></div>
+										<div class="huge">Instances!</div>
 									</div>
 								</div>
 							</div>
@@ -342,11 +352,12 @@
 							<div class="panel-heading">
 								<div class="row">
 									<div class="col-xs-3">
-										<i class="fa fa-shopping-cart fa-5x"></i>
+										<i class="glyphicons glyphicons-fire"></i>
 									</div>
 									<div class="col-xs-9 text-right">
-										<div class="huge">124</div>
-										<div>Billing!</div>
+										<div class="huge">
+											$<%=totalCharge%></div>
+										<div class="huge">Billing!</div>
 									</div>
 								</div>
 							</div>
@@ -368,7 +379,7 @@
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge"><%=userCloud%></div>
-										<div>Users!</div>
+										<div class="huge">Users!</div>
 									</div>
 								</div>
 							</div>
@@ -405,7 +416,8 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-long-arrow-right fa-fw"></i> Donut Chart
+									<i class="fa fa-long-arrow-right fa-fw"></i> Instance Details
+									Chart
 								</h3>
 							</div>
 							<div class="panel-body">
@@ -476,7 +488,7 @@
 												<th>Instance Name</th>
 												<th>OS</th>
 												<th>Uptime</th>
-<!-- 											<th>Private IP</th>
+												<!-- 											<th>Private IP</th>
 												<th>Public IP</th>
 												<th>Status</th>
 												<th>Storage</th>
@@ -486,29 +498,30 @@
 										</thead>
 
 
-											<%
-											   for(Instance instanceObj:instanceList) {
-												   %>
-<tbody>  										<tbody>
-												<tr>
-												   <td><%=
-												   instanceObj.getCloudid()
-												   %></td>
-												   <td><%=instanceObj.getCpu() %></td>
-												   <td><%=instanceObj.getInstanceid()%></td>
-												   <td><%=instanceObj.getMemory() %></td>
-												   <td><%=instanceObj.getName()%></td>
-												   <td><%=instanceObj.getOs() %></td>
-												   <td><%=instanceObj.getUptime() %></td>
-<%-- 												    <td><%instanceObj.getPrivateip(); %></td> --%>
-<%-- 												    <td><%instanceObj.getPublicip(); %></td> --%>
-<%-- 												    <td><%instanceObj.getStatus(); %></td> --%>
-<%-- 												    <td><%instanceObj.getStorage(); %></td> --%>
-<%-- 												    <td><%instanceObj.getUptime(); %></td> --%>
-<%-- 												    <td><%instanceObj.getUserid(); %></td> --%>
-										   </tr> 										   
+										<%
+											for(Instance instanceObj:instanceList) {
+										%>
+										<tbody>
+										<tbody>
+											<tr>
+												<td><%=instanceObj.getCloudid()%></td>
+												<td><%=instanceObj.getCpu()%></td>
+												<td><%=instanceObj.getInstanceid()%></td>
+												<td><%=instanceObj.getMemory()%></td>
+												<td><%=instanceObj.getName()%></td>
+												<td><%=instanceObj.getOs()%></td>
+												<td><%=instanceObj.getUptime()%></td>
+												<%-- 												    <td><%instanceObj.getPrivateip(); %></td> --%>
+												<%-- 												    <td><%instanceObj.getPublicip(); %></td> --%>
+												<%-- 												    <td><%instanceObj.getStatus(); %></td> --%>
+												<%-- 												    <td><%instanceObj.getStorage(); %></td> --%>
+												<%-- 												    <td><%instanceObj.getUptime(); %></td> --%>
+												<%-- 												    <td><%instanceObj.getUserid(); %></td> --%>
+											</tr>
 										</tbody>
-											 <% }%>
+										<%
+											}
+										%>
 
 									</table>
 								</div>
@@ -530,22 +543,24 @@
 
 	</div>
 	<!-- /#wrapper -->
-
-
-<script type="text/javascript">
-    // Donut Chart
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "Active Instances",
-            value: "${active}"
-        }, {
-            label: "Inactive Instances",
-            value: "${inactive}"
-        }],
-        resize: true
-    });
-</script>
+	<script type="text/javascript">
+		// Donut Chart
+		Morris.Donut({
+			element : 'morris-donut-chart',
+			data : [ {
+				label : "Active Instances",
+				value :
+	<%=active%>
+		,
+				backgroundColor : '#40FF00'
+			}, {
+				label : "Inactive Instances",
+				value :
+	<%=inactive%>
+		} ],
+			resize : true
+		});
+	</script>
 </body>
 
 </html>

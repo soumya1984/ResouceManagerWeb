@@ -61,6 +61,18 @@ public class CloudBaseController {
 		modelView = new ModelAndView("genarator");
 		return modelView;
 	}
+	
+	/**
+	 * function to call the requst genarator
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/loadChart", method = RequestMethod.POST)
+	public ModelAndView loadChart() {
+		ModelAndView modelView;
+		modelView = new ModelAndView("charts");
+		return modelView;
+	}
 
 	/**
 	 * function to call the requst genarator

@@ -1,6 +1,7 @@
 package edu.sjsu.courseapp.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import edu.sjsu.courseapp.domain.Instance;
 
@@ -17,5 +18,7 @@ public interface InstanceDAO {
 	public void deleteInstance(int instanceid);
 	
 	public List<Instance> getInstanceallList() ;
+	
+	public Map<Integer, Double> getBillPerUser();
 
 }
