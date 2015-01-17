@@ -81,59 +81,59 @@
 <body>
 	<%
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-			"root-context.xml");
-			InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
-			.getBean("instanceServ");
-			int instanceCount = instance.getInstanceCount();
-			//get the list of the instances 
+		"root-context.xml");
+		InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
+		.getBean("instanceServ");
+		int instanceCount = instance.getInstanceCount();
+		//get the list of the instances 
 
-			List<Instance> instanceList = instance.getInstanceallList();
-			
-			Map<Integer, Double> billMap=instance.getBillPerUser();
-			double totalCharge=0;
-			for(Map.Entry map:billMap.entrySet()){
-		totalCharge=totalCharge+(Double) map.getValue();
-			}
-
-
-			CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
-			.getBean("cloudServ");
-			int cloudCount = cloud.getCloudCount();
-			List<Cloud> cloudList=cloud.getCloudallList();
-
-			UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
-			.getBean("userServ");
-			int userCloud = user.getUserCount();
-			//get all the active instances ...
-			Map<String,Integer> instanceMap = new HashMap<String,Integer>(); 
-			for(Instance instanceObj:instanceList) {
-			    if( instanceObj.getStatus().equals("Active")){
-			    	Integer value =instanceMap.get("Active");
-			    	if(value==null){
-			    		instanceMap.put("Active", 1);
-			    	}else{
-			    	   instanceMap.put("Active", value+1);
-			    	}
-			    }else if(instanceObj.getStatus().equals("Inactive")){	    	
-			    	Integer inactiveValue =instanceMap.get("Inactive");
-			    	if(inactiveValue==null){
-			    		instanceMap.put("Inactive", 1);
-			    	}else{
-			    	instanceMap.put("Inactive",inactiveValue+1);
-			    	}
-			    }
+		List<Instance> instanceList = instance.getInstanceallList();
 		
-			}
-			int inactive=0,active=0;
-			if(instanceMap.get("Active")!=null)
-			{
-		active= instanceMap.get("Active");
-			}
-			if(instanceMap.get("Inactive")!=null)
-			{
-		inactive= instanceMap.get("Inactive");
-			}
-		//	inactive = instanceMap.get("Inactive");
+		Map<Integer, Double> billMap=instance.getBillPerUser();
+		double totalCharge=0;
+		for(Map.Entry map:billMap.entrySet()){
+			totalCharge=totalCharge+(Double) map.getValue();
+		}
+
+
+		CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
+		.getBean("cloudServ");
+		int cloudCount = cloud.getCloudCount();
+		List<Cloud> cloudList=cloud.getCloudallList();
+
+		UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
+		.getBean("userServ");
+		int userCloud = user.getUserCount();
+		//get all the active instances ...
+		Map<String,Integer> instanceMap = new HashMap<String,Integer>(); 
+		for(Instance instanceObj:instanceList) {
+		    if( instanceObj.getStatus().equals("Active")){
+		    	Integer value =instanceMap.get("Active");
+		    	if(value==null){
+		    		instanceMap.put("Active", 1);
+		    	}else{
+		    	   instanceMap.put("Active", value+1);
+		    	}
+		    }else if(instanceObj.getStatus().equals("Inactive")){	    	
+		    	Integer inactiveValue =instanceMap.get("Inactive");
+		    	if(inactiveValue==null){
+		    		instanceMap.put("Inactive", 1);
+		    	}else{
+		    	instanceMap.put("Inactive",inactiveValue+1);
+		    	}
+		    }
+			
+		}
+		int inactive=0,active=0;
+		if(instanceMap.get("Active")!=null)
+		{
+			active= instanceMap.get("Active");
+		}
+		if(instanceMap.get("Inactive")!=null)
+		{
+			inactive= instanceMap.get("Inactive");
+		}
+			//	inactive = instanceMap.get("Inactive");
 	%>
 
 	<div id="wrapper">
@@ -248,12 +248,15 @@
 				<li><form action="${context}/generator" method="post">
 						<a href="javascript:;" onclick="parentNode.submit();"><i
 							class="fa fa-fw fa-bar-chart-o"></i>
-							<div>Dynamic Request Generator....</div> </a><br/>
+							<div>Dynamic Request Generator....</div> </a><br />
 					</form></li>
-				<li><form action="${context}/loadChart" method="post"><a href="javascript:;" onclick="parentNode.submit();"><i class="fa fa-fw fa-table"></i>
-						Tables</a></form></li>
-				<li><form action="${context}/re" method="post"><a href="forms.html"><i class="fa fa-fw fa-edit"></i>
-						Forms</a></form></li>
+				<li><form action="${context}/loadChart" method="post">
+						<a href="javascript:;" onclick="parentNode.submit();"><i
+							class="fa fa-fw fa-table"></i> Billing Details</a>
+					</form></li>
+<%-- 				<li><form action="${context}/re" method="post">
+						<a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+					</form></li>
 				<li><a href="bootstrap-elements.html"><i
 						class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a></li>
 				<li><a href="bootstrap-grid.html"><i
@@ -268,7 +271,7 @@
 				<li><a href="blank-page.html"><i class="fa fa-fw fa-file"></i>
 						Blank Page</a></li>
 				<li><a href="index-rtl.html"><i
-						class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a></li>
+						class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a></li> --%>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse --> </nav>
@@ -281,7 +284,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">
-							Dashboard <small>Statistics Overview</small>
+							Dashboard :<small>Cloud Operation Overview</small>
 						</h1>
 						<ol class="breadcrumb">
 							<li class="active"><i class="fa fa-dashboard"></i> Dashboard
@@ -398,7 +401,7 @@
 				</div>
 				<!-- /.row -->
 
-				<div class="row">
+				<!-- 				<div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -411,7 +414,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- /.row -->
 
 				<div class="row">
@@ -441,45 +444,45 @@
 							</div>
 							<div class="panel-body">
 								<div class="panel-body">
-								<div class="table-responsive">
-									<table class="table table-bordered table-hover table-striped">
-										<thead>
-											<tr>
-												<th>Cloud Id #</th>
-												<th>Geo Location</th>
-												<th>Cloud Name</th>
-												<th>Private IP:</th>
-												<th>Public IP:</th>
-												<th>OS</th>
-												<th>Uptime</th>
-											</tr>
-										</thead>
+									<div class="table-responsive">
+										<table class="table table-bordered table-hover table-striped">
+											<thead>
+												<tr>
+													<th>Cloud Id #</th>
+													<th>Geo Location</th>
+													<th>Cloud Name</th>
+													<th>Private IP:</th>
+													<th>Public IP:</th>
+													<th>OS</th>
+													<th>Uptime</th>
+												</tr>
+											</thead>
 
 
-										<%
-											for(Cloud obj:cloudList) {
-										%>
-										<tbody>
-										<tbody>
-											<tr>
-												<td><%=obj.getCloudid()%></td>
-												<td><%=obj.getGeolocation()%></td>
-												<td><%=obj.getName()%></td>
-												<td><%=obj.getPrivateip()%></td>
-												<td><%=obj.getPublicip()%></td>
-											</tr>
-										</tbody>
-										<%
-											}
-										%>
+											<%
+												for(Cloud obj:cloudList) {
+											%>
+											<tbody>
+											<tbody>
+												<tr>
+													<td><%=obj.getCloudid()%></td>
+													<td><%=obj.getGeolocation()%></td>
+													<td><%=obj.getName()%></td>
+													<td><%=obj.getPrivateip()%></td>
+													<td><%=obj.getPublicip()%></td>
+												</tr>
+											</tbody>
+											<%
+												}
+											%>
 
-									</table>
+										</table>
+									</div>
+									<div class="text-right">
+										<a href="#">View All Transactions <i
+											class="fa fa-arrow-circle-right"></i></a>
+									</div>
 								</div>
-								<div class="text-right">
-									<a href="#">View All Transactions <i
-										class="fa fa-arrow-circle-right"></i></a>
-								</div>
-							</div>
 							</div>
 						</div>
 					</div>

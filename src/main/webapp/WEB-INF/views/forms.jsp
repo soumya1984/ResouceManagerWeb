@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="context" scope="request"
-	value="<%=request.getContextPath()%>" />
+	value="<%=request.getContextPath()%>"/>
 <html lang="en">
 
 <head>
@@ -54,16 +54,18 @@
 <link
 	href="${context}/resources/includes/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+  <!-- Include jQuery Popup Overlay -->
+  <script src="http://vast-engineering.github.io/jquery-popup-overlay/jquery.popupoverlay.js"></script>	
 
 </head>
 
-<script type="text/javascript">
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	$('#my_popup').popup('show');
 
 });
-</script>
 </script>
 
 <body>
@@ -415,22 +417,15 @@ $(document).ready(function(){
 
                     </div>
                 </div>
-                <!-- /.row -->
 
+</div>
             </div>
             <!-- /.container-fluid -->
-
+<div id="my_popup">Thank for submitting the request</div>
         </div>
         <!-- /#page-wrapper -->
 
     </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
 
 </body>
 
