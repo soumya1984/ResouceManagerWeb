@@ -1,21 +1,9 @@
-<%@page import="java.util.Map.Entry"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="edu.sjsu.courseapp.domain.Instance"%>
-<%@page import="com.amazonaws.services.ec2.model.InstanceCount"%>
-<%@page import="edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl"%>
-<%@page import="edu.sjsu.courseapp.dao.jdbc.CloudDaoJdbcImpl"%>
-<%@page
-	import="org.springframework.context.support.ClassPathXmlApplicationContext"%>
-<%@page import="org.springframework.context.ApplicationContext"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="context" scope="request"
 	value="<%=request.getContextPath()%>" />
-<%@ page import="java.util.List"%>
-<%@ page import="edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl"%>
 <html lang="en">
 
 <head>
@@ -26,9 +14,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Dynamic Request Generator</title>
 
-    <!-- Bootstrap Core CSS -->
 <!-- Bootstrap CSS -->
 <link href="${context}/resources/includes/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -67,14 +54,17 @@
 <link
 	href="${context}/resources/includes/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-	
-    <script src="${context}/resources/includes/js/plugins/flot/jquery.flot.js"></script>
-    <script src="${context}/resources/includes/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="${context}/resources/includes/js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="${context}/resources/includes/js/plugins/flot/jquery.flot.pie.js"></script>
-    <script src="${context}/resources/includes/js/plugins/flot/flot-data.js"></script>
 
 </head>
+
+<script type="text/javascript">
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+</script>
 
 <body>
 
@@ -199,13 +189,13 @@
                     <li>
                         <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
                     </li>
                     <li>
                         <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
                     </li>
                     <li>
@@ -244,175 +234,185 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Charts
+                           Dynamic Request Generator... 
                         </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Charts
+                                <i class="fa fa-edit"></i> Dynamic Request Generator... 
                             </li>
                         </ol>
                     </div>
                 </div>
                 <!-- /.row -->
 
-                <!-- Flot Charts -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="page-header">Flot Charts</h2>
-                        <p class="lead">Flot is a pure JavaScript plotting library for jQuery, with a focus on simple usage, attractive looks and interactive features. For full usage instructions and documentation for Flot Charts, visit <a href="http://www.flotcharts.org/">http://www.flotcharts.org/</a>.</p>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Line Graph Example with Tooltips</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-line-chart"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Pie Chart Example with Tooltips</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-pie-chart"></div>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Multiple Axes Line Graph Example with Tooltips and Raw Data</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-multiple-axes-chart"></div>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Moving Line Chart</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-moving-line-chart"></div>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Bar Graph with Tooltips</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-bar-chart"></div>
-                                </div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
 
-                <!-- Morris Charts -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="page-header">Morris Charts</h2>
-                        <p class="lead">Morris.js is a very simple API for drawing line, bar, area and donut charts. For full usage instructions and documentation for Morris.js charts, visit <a href="http://www.oesmith.co.uk/morris.js/">http://www.oesmith.co.uk/morris.js/</a>.</p>
-                    </div>
-                </div>
-                <!-- /.row -->
+                        <form action="${context}/executeGenerator" method="post">
+                        
+                            <div class="form-group">
+                                <label>Please Provide Email:</label>
+                                <input class="form-control" name="email" type="email" value="" id="email>
+                                <p class="help-block">Example block-level help text here.</p>
+                            </div>
+					<div class="form-group">
+							<select class="form-control" name="memory" id="memory">
+								<option value=""></option>
+								<option value="8">8GB</option>
+								<option value="16">16GB</option>
+								<option value="32">32GB</option>
+								<option value="64">64GB</option>
+								<option value="128">128GB</option>
+							</select>
+						</div>
+					<div class="form-group">
+						<label for="request" class="control-label"> Number Of
+							Request </label>
+					<div class="form-group">
+							<select class="form-control" name="request" id="request">
+								<option value=""></option>
+								<option value="100">100</option>
+								<option value="500">500</option>
+								<option value="1000">1000</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+								<label for="cpu" class="control-label"> Number Of CPU </label>
+								<div class="controls">
+									<select name="cpu" id="cpu" class="form-control">
+										<option value=""></option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+									</select>
+								</div>
+							</div>
+							
+					<div class="form-group">
+						<label for="country" class="control-label"> Country </label>
+						<div class="controls">
+							<select name="country" id="country" class="form-control">
+								<option value=""></option>
+								<option value="AR">Argentina</option>
+								<option value="AU">Australia</option>
+								<option value="AT">Austria</option>
+								<option value="BY">Belarus</option>
+								<option value="BE">Belgium</option>
+								<option value="BA">Bosnia and Herzegovina</option>
+								<option value="BR">Brazil</option>
+								<option value="BG">Bulgaria</option>
+								<option value="CA">Canada</option>
+								<option value="CL">Chile</option>
+								<option value="CN">China</option>
+								<option value="CO">Colombia</option>
+								<option value="CR">Costa Rica</option>
+								<option value="HR">Croatia</option>
+								<option value="CU">Cuba</option>
+								<option value="CY">Cyprus</option>
+								<option value="CZ">Czech Republic</option>
+								<option value="DK">Denmark</option>
+								<option value="DO">Dominican Republic</option>
+								<option value="EG">Egypt</option>
+								<option value="EE">Estonia</option>
+								<option value="FI">Finland</option>
+								<option value="FR">France</option>
+								<option value="GE">Georgia</option>
+								<option value="DE">Germany</option>
+								<option value="GI">Gibraltar</option>
+								<option value="GR">Greece</option>
+								<option value="HK">Hong Kong S.A.R., China</option>
+								<option value="HU">Hungary</option>
+								<option value="IS">Iceland</option>
+								<option value="IN">India</option>
+								<option value="ID">Indonesia</option>
+								<option value="IR">Iran</option>
+								<option value="IQ">Iraq</option>
+								<option value="IE">Ireland</option>
+								<option value="IL">Israel</option>
+								<option value="IT">Italy</option>
+								<option value="JM">Jamaica</option>
+								<option value="JP">Japan</option>
+								<option value="KZ">Kazakhstan</option>
+								<option value="KW">Kuwait</option>
+								<option value="KG">Kyrgyzstan</option>
+								<option value="LA">Laos</option>
+								<option value="LV">Latvia</option>
+								<option value="LB">Lebanon</option>
+								<option value="LT">Lithuania</option>
+								<option value="LU">Luxembourg</option>
+								<option value="MK">Macedonia</option>
+								<option value="MY">Malaysia</option>
+								<option value="MT">Malta</option>
+								<option value="MX">Mexico</option>
+								<option value="MD">Moldova</option>
+								<option value="MC">Monaco</option>
+								<option value="ME">Montenegro</option>
+								<option value="MA">Morocco</option>
+								<option value="NL">Netherlands</option>
+								<option value="NZ">New Zealand</option>
+								<option value="NI">Nicaragua</option>
+								<option value="KP">North Korea</option>
+								<option value="NO">Norway</option>
+								<option value="PK">Pakistan</option>
+								<option value="PS">Palestinian Territory</option>
+								<option value="PE">Peru</option>
+								<option value="PH">Philippines</option>
+								<option value="PL">Poland</option>
+								<option value="PT">Portugal</option>
+								<option value="PR">Puerto Rico</option>
+								<option value="QA">Qatar</option>
+								<option value="RO">Romania</option>
+								<option value="RU">Russia</option>
+								<option value="SA">Saudi Arabia</option>
+								<option value="RS">Serbia</option>
+								<option value="SG">Singapore</option>
+								<option value="SK">Slovakia</option>
+								<option value="SI">Slovenia</option>
+								<option value="ZA">South Africa</option>
+								<option value="KR">South Korea</option>
+								<option value="ES">Spain</option>
+								<option value="LK">Sri Lanka</option>
+								<option value="SE">Sweden</option>
+								<option value="CH">Switzerland</option>
+								<option value="TW">Taiwan</option>
+								<option value="TH">Thailand</option>
+								<option value="TN">Tunisia</option>
+								<option value="TR">Turkey</option>
+								<option value="UA">Ukraine</option>
+								<option value="AE">United Arab Emirates</option>
+								<option value="GB">United Kingdom</option>
+								<option value="US">USA</option>
+								<option value="UZ">Uzbekistan</option>
+								<option value="VN">Vietnam</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+							<label for="cpu" class="control-label"> Pick the
+								Algorithm you wish to choose. </label>
+							<div class="controls">
+								<select name="algorithm" id="algorithm" class="form-control">
+									<option value=""></option>
+									<option value="ant">Ant Colony Algorithm...</option>
+									<option value="honey">Honey Bee Algorithm...</option>
+									<option value="pso">PSO Algorithm...</option>
+									<option value="geolocation">Geo Location Algorithm...</option>
+								</select>
+							</div>
+						</div>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Area Line Graph Example with Tooltips</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-area-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
+							<button type="submit" class="btn btn-default">Generate Rquest...</button>
+                            <button type="reset" class="btn btn-default">Reset Request...</button>
 
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Donut Chart Example</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-donut-chart"></div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Line Graph Example with Tooltips</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-line-chart"></div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Bar Graph Example</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div id="morris-bar-chart"></div>
-                                <div class="text-right">
-                                    <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
                 <!-- /.row -->
@@ -426,7 +426,11 @@
     </div>
     <!-- /#wrapper -->
 
- 
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 

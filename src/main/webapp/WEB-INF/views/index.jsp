@@ -1,3 +1,4 @@
+<%@page import="edu.sjsu.courseapp.domain.Cloud"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
@@ -98,6 +99,7 @@
 			CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
 			.getBean("cloudServ");
 			int cloudCount = cloud.getCloudCount();
+			List<Cloud> cloudList=cloud.getCloudallList();
 
 			UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
 			.getBean("userServ");
@@ -245,12 +247,13 @@
 						class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
 				<li><form action="${context}/generator" method="post">
 						<a href="javascript:;" onclick="parentNode.submit();"><i
-							class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-					</form></li><br></br>
+							class="fa fa-fw fa-bar-chart-o"></i>
+							<div>Dynamic Request Generator....</div> </a><br/>
+					</form></li>
 				<li><form action="${context}/loadChart" method="post"><a href="javascript:;" onclick="parentNode.submit();"><i class="fa fa-fw fa-table"></i>
 						Tables</a></form></li>
-				<li><a href="forms.html"><i class="fa fa-fw fa-edit"></i>
-						Forms</a></li>
+				<li><form action="${context}/re" method="post"><a href="forms.html"><i class="fa fa-fw fa-edit"></i>
+						Forms</a></form></li>
 				<li><a href="bootstrap-elements.html"><i
 						class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a></li>
 				<li><a href="bootstrap-grid.html"><i
@@ -433,39 +436,50 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-clock-o fa-fw"></i> Tasks Panel
+									<i class="fa fa-clock-o fa-fw"></i> Cloud Details..
 								</h3>
 							</div>
 							<div class="panel-body">
-								<div class="list-group">
-									<a href="#" class="list-group-item"> <span class="badge">just
-											now</span> <i class="fa fa-fw fa-calendar"></i> Calendar updated
-									</a> <a href="#" class="list-group-item"> <span class="badge">4
-											minutes ago</span> <i class="fa fa-fw fa-comment"></i> Commented on
-										a post
-									</a> <a href="#" class="list-group-item"> <span class="badge">23
-											minutes ago</span> <i class="fa fa-fw fa-truck"></i> Order 392
-										shipped
-									</a> <a href="#" class="list-group-item"> <span class="badge">46
-											minutes ago</span> <i class="fa fa-fw fa-money"></i> Invoice 653 has
-										been paid
-									</a> <a href="#" class="list-group-item"> <span class="badge">1
-											hour ago</span> <i class="fa fa-fw fa-user"></i> A new user has been
-										added
-									</a> <a href="#" class="list-group-item"> <span class="badge">2
-											hours ago</span> <i class="fa fa-fw fa-check"></i> Completed task:
-										"pick up dry cleaning"
-									</a> <a href="#" class="list-group-item"> <span class="badge">yesterday</span>
-										<i class="fa fa-fw fa-globe"></i> Saved the world
-									</a> <a href="#" class="list-group-item"> <span class="badge">two
-											days ago</span> <i class="fa fa-fw fa-check"></i> Completed task:
-										"fix error on sales page"
-									</a>
+								<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr>
+												<th>Cloud Id #</th>
+												<th>Geo Location</th>
+												<th>Cloud Name</th>
+												<th>Private IP:</th>
+												<th>Public IP:</th>
+												<th>OS</th>
+												<th>Uptime</th>
+											</tr>
+										</thead>
+
+
+										<%
+											for(Cloud obj:cloudList) {
+										%>
+										<tbody>
+										<tbody>
+											<tr>
+												<td><%=obj.getCloudid()%></td>
+												<td><%=obj.getGeolocation()%></td>
+												<td><%=obj.getName()%></td>
+												<td><%=obj.getPrivateip()%></td>
+												<td><%=obj.getPublicip()%></td>
+											</tr>
+										</tbody>
+										<%
+											}
+										%>
+
+									</table>
 								</div>
 								<div class="text-right">
-									<a href="#">View All Activity <i
+									<a href="#">View All Transactions <i
 										class="fa fa-arrow-circle-right"></i></a>
 								</div>
+							</div>
 							</div>
 						</div>
 					</div>

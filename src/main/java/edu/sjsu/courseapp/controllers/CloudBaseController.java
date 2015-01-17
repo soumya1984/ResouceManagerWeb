@@ -58,7 +58,7 @@ public class CloudBaseController {
 	@RequestMapping(value = "/generator", method = RequestMethod.POST)
 	public ModelAndView newRequestGenerator() {
 		ModelAndView modelView;
-		modelView = new ModelAndView("genarator");
+		modelView = new ModelAndView("forms");
 		return modelView;
 	}
 	
