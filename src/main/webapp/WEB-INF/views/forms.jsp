@@ -257,7 +257,7 @@ $(document).ready(function(){
                         
                             <div class="form-group">
                                 <label>Please Provide Email:</label>
-                                <input class="form-control" name="email" type="email" value="" id="email>
+                                <input class="form-control" name="email" type="email" value="" id="email">
                                 <p class="help-block">Example block-level help text here.</p>
                             </div>
 					<div class="form-group">
