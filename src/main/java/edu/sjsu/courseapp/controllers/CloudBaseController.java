@@ -55,7 +55,7 @@ public class CloudBaseController {
 	@RequestMapping(value = "/generator", method = RequestMethod.POST)
 	public ModelAndView newRequestGenerator() {
 		ModelAndView modelView;
-		modelView = new ModelAndView("forms");
+		modelView = new ModelAndView("generator");
 		return modelView;
 	}
 	
@@ -111,7 +111,7 @@ public class CloudBaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		modelView = new ModelAndView("genarator");
+		modelView = new ModelAndView("generatorResponse");
 		return modelView;
 	}
 	/**

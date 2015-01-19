@@ -265,7 +265,7 @@ $(document).ready(function(){
 					<div class="form-group">
 							<select class="form-control" name="memory" id="memory">
 								<option value=""></option>
-								<option value="512">521MB</option>
+								<option value="512">512MB</option>
 								<option value="1024">1024MB</option>
 								<option value="2048">2048MB</option>
 							</select>
@@ -278,6 +278,7 @@ $(document).ready(function(){
 							<select class="form-control" name="request" id="request">
 								<option value=""></option>
 								<option value="1">1(Just for testing.)</option>
+								<option value="2">2(Just for testing.)</option>
 								<option value="50">50</option>
 								<option value="100">100</option>
 								<option value="500">500</option>
