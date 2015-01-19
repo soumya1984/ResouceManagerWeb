@@ -200,8 +200,10 @@ $(document).ready(function(){
         <div id="page-wrapper">
 
             <div class="container-fluid">
-
-
+	<div class="form-group">
+						<label for="request" class="huge"> Your request has been submitted properly .
+						please check the <a href="http://localhost:8161/admin/queues.jsp">http://localhost:8161</a> url to check the queue status. </label>
+</div>
 
 </div>
             </div>
