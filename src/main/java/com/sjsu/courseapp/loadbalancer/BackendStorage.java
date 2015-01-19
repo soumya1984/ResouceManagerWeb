@@ -3,12 +3,14 @@ package com.sjsu.courseapp.loadbalancer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl;
+import edu.sjsu.courseapp.domain.Instance;
 
 public class BackendStorage {
 	private static ApplicationContext context;
@@ -20,7 +22,8 @@ public class BackendStorage {
 		Resources resource = new Resources();
 		// set instances details
 		// resource.setCpu_units(instances.get)
-		for (int i = 0; i < instances.getInstanceallList().size(); i++) {
+		List<Instance> insList = instances.getInstanceallList();
+		for (int i = 0; i < insList.size(); i++) {
 			String resourceName = "EC2_" + i;
 			resource.setResourceName(resourceName);
 			resource.setCpu_units(Integer.parseInt(instances

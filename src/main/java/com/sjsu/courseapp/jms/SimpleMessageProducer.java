@@ -44,7 +44,6 @@ public class SimpleMessageProducer {
                 public Message createMessage(Session session) throws JMSException {
                     TextMessage message = session.createTextMessage(payload); 
                     message.setIntProperty("messageCount", count);
-                    //LOG.info("Sending message number '{}'", count);
                     System.out.println("Sending message number '{}'"+count);
                     return message;
                 }
