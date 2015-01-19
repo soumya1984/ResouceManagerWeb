@@ -29,6 +29,7 @@ public class SimpleMessageListener implements MessageListener {
 			//resourceStorage.addRequestsToHashMap(request.getRequestId(), request);
 			LoadBalancer balancer = new LoadBalancer();
 			//ant colony 
+			if(request.getAlgorithm().equals("ant"))
 			balancer.processRequest(request);
 			
 		} catch (JMSException e) {

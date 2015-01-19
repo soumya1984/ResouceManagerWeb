@@ -83,4 +83,14 @@ public class ResourceRequest {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public String getAlgorithm() {
+		return algorithm;
+	}
+
+	public void setAlgorithm(String algorithm) {
+		this.algorithm = algorithm;
+	}
+
+	private String algorithm;
 }
