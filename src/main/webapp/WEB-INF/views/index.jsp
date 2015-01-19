@@ -81,59 +81,59 @@
 <body>
 	<%
 		ApplicationContext context = new ClassPathXmlApplicationContext(
-		"root-context.xml");
-		InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
-		.getBean("instanceServ");
-		int instanceCount = instance.getInstanceCount();
-		//get the list of the instances 
+			"root-context.xml");
+			InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
+			.getBean("instanceServ");
+			int instanceCount = instance.getInstanceCount();
+			//get the list of the instances 
 
-		List<Instance> instanceList = instance.getInstanceallList();
-		
-		Map<Integer, Double> billMap=instance.getBillPerUser();
-		double totalCharge=0;
-		for(Map.Entry map:billMap.entrySet()){
-			totalCharge=totalCharge+(Double) map.getValue();
-		}
-
-
-		CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
-		.getBean("cloudServ");
-		int cloudCount = cloud.getCloudCount();
-		List<Cloud> cloudList=cloud.getCloudallList();
-
-		UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
-		.getBean("userServ");
-		int userCloud = user.getUserCount();
-		//get all the active instances ...
-		Map<String,Integer> instanceMap = new HashMap<String,Integer>(); 
-		for(Instance instanceObj:instanceList) {
-		    if( instanceObj.getStatus().equals("Active")){
-		    	Integer value =instanceMap.get("Active");
-		    	if(value==null){
-		    		instanceMap.put("Active", 1);
-		    	}else{
-		    	   instanceMap.put("Active", value+1);
-		    	}
-		    }else if(instanceObj.getStatus().equals("Inactive")){	    	
-		    	Integer inactiveValue =instanceMap.get("Inactive");
-		    	if(inactiveValue==null){
-		    		instanceMap.put("Inactive", 1);
-		    	}else{
-		    	instanceMap.put("Inactive",inactiveValue+1);
-		    	}
-		    }
+			List<Instance> instanceList = instance.getInstanceallList();
 			
-		}
-		int inactive=0,active=0;
-		if(instanceMap.get("Active")!=null)
-		{
-			active= instanceMap.get("Active");
-		}
-		if(instanceMap.get("Inactive")!=null)
-		{
-			inactive= instanceMap.get("Inactive");
-		}
-			//	inactive = instanceMap.get("Inactive");
+			Map<Integer, Double> billMap=instance.getBillPerUser();
+			double totalCharge=0;
+			for(Map.Entry map:billMap.entrySet()){
+		totalCharge=totalCharge+(Double) map.getValue();
+			}
+
+
+			CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
+			.getBean("cloudServ");
+			int cloudCount = cloud.getCloudCount();
+			List<Cloud> cloudList=cloud.getCloudallList();
+
+			UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
+			.getBean("userServ");
+			int userCloud = user.getUserCount();
+			//get all the active instances ...
+			Map<String,Integer> instanceMap = new HashMap<String,Integer>(); 
+			for(Instance instanceObj:instanceList) {
+			    if( instanceObj.getStatus().equals("Active")){
+			    	Integer value =instanceMap.get("Active");
+			    	if(value==null){
+			    		instanceMap.put("Active", 1);
+			    	}else{
+			    	   instanceMap.put("Active", value+1);
+			    	}
+			    }else if(instanceObj.getStatus().equals("Inactive")){	    	
+			    	Integer inactiveValue =instanceMap.get("Inactive");
+			    	if(inactiveValue==null){
+			    		instanceMap.put("Inactive", 1);
+			    	}else{
+			    	instanceMap.put("Inactive",inactiveValue+1);
+			    	}
+			    }
+		
+			}
+			int inactive=0,active=0;
+			if(instanceMap.get("Active")!=null)
+			{
+		active= instanceMap.get("Active");
+			}
+			if(instanceMap.get("Inactive")!=null)
+			{
+		inactive= instanceMap.get("Inactive");
+			}
+		//	inactive = instanceMap.get("Inactive");
 	%>
 
 	<div id="wrapper">
@@ -236,7 +236,7 @@
 					<li><a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
 					</li>
 					<li class="divider"></li>
-					<li><a href="#"><i class="fa fa-fw fa-power-off"></i> Log
+					<li><a href="http://localhost:8080/courseapp"><i class="fa fa-fw fa-power-off"></i> Log
 							Out</a></li>
 				</ul></li>
 		</ul>
@@ -254,7 +254,7 @@
 						<a href="javascript:;" onclick="parentNode.submit();"><i
 							class="fa fa-fw fa-table"></i> Billing Details</a>
 					</form></li>
-<%-- 				<li><form action="${context}/re" method="post">
+				<%-- 				<li><form action="${context}/re" method="post">
 						<a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
 					</form></li>
 				<li><a href="bootstrap-elements.html"><i
@@ -400,6 +400,18 @@
 					</div>
 				</div>
 				<!-- /.row -->
+				<div class="main-temp-back">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-6">
+								<i class="fa fa-cloud fa-3x"></i> Newyork City
+							</div>
+							<div class="col-xs-6">
+								<div class="text-temp">10°</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 				<!-- 				<div class="row">
 					<div class="col-lg-12">
