@@ -103,7 +103,7 @@ public class CloudBaseController {
 		String requestXML = "<request> <email>" + email + "</email>"
 				+ "<memory>" + memory + "</memory>" + "<requestId>"
 				+ rand.nextInt() + "</requestId>" + "<cpu>" + cpu + "</cpu>"+ "<storage>" + storage + "</storage>"
-				+ "<osType>" + osType + "</osType>"+ "<os>" + os + "</os>"+ "<algorithm>" + algorithm + "</algorithm>"+"</request>";
+				+ "<osType>" + osType + "</osType>"+ "<os>" + os + "</os>"+ "<algorithm>" + algorithm + "</algorithm>"+ "<count>" + request + "</count>"+"</request>";
 		simpleMessageProducer.setNumberOfMessages(request);
 		try {
 			simpleMessageProducer.sendMessages(requestXML);

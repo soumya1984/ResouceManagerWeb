@@ -10,6 +10,9 @@ public class ResourceRequest {
 	private int memory;
 	private int storage;
 	private boolean isAllocated;
+
+	private String algorithm;
+
 	private String request_description;
 
 	public String getRequest_description() {
@@ -92,5 +95,13 @@ public class ResourceRequest {
 		this.algorithm = algorithm;
 	}
 
-	private String algorithm;
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	private int totalCount;
 }

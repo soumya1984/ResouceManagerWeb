@@ -2,14 +2,24 @@ package com.sjsu.courseapp.loadbalancer;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sjsu.courseapp.jms.SimpleMessageListener;
+
 public class LoadBalancer {
+	private static BackendStorage backendStorage = null;
+	private int noOfRequest = 0;
+	private int processRequest = 0;
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SimpleMessageListener.class);
+	static {
+		backendStorage = new BackendStorage();
+	}
+
 	// Resource Allocation is done by Ant Colony Algorithm
 	public String antColonyRequestProcesor(ResourceRequest request) {
-		BackendStorage backendStorage = new BackendStorage();
-		ArrayList<Resources> resourceList = new ArrayList<Resources>(
-				backendStorage.getResourcesFromHashMap());
-		ArrayList<String> resourceNames = new ArrayList<String>();
-		resourceList = backendStorage.getResourcesFromHashMap();
 		System.out.println("Single Request");
 		System.out
 				.println("#####################################################################################################");
@@ -27,13 +37,16 @@ public class LoadBalancer {
 		System.out.println("Request Is Allocated? " + request.isAllocated());
 		System.out
 				.println("**********************************************************");
-		int requestServed = 0;
 
 		// diositing initial pheromen to each of the resource .
 		// consider each resource a cloud center .
 		// building the final ant colony map
+		ArrayList<Resources> resourceList = new ArrayList<Resources>(
+				backendStorage.getResourcesFromHashMap());
+		ArrayList<String> resourceNames = new ArrayList<String>();
+		resourceList = backendStorage.getResourcesFromHashMap();
 
-		while ((request.isAllocated() == false) && requestServed == 0) {
+		while ((request.isAllocated() == false)) {
 			// loop through the all request and assign the proper one
 			for (Resources resource : resourceList) {
 				int resourceCpu = resource.getCpu_units();
@@ -77,8 +90,6 @@ public class LoadBalancer {
 								+ request.getRequestId() + " is Allocated");
 						System.out
 								.println("******************************************************************");
-					} else {
-						requestServed = requestServed + 1;
 					}
 
 				}
@@ -86,7 +97,22 @@ public class LoadBalancer {
 
 		}
 		resourceNames = backendStorage.updateResourcesInHashMap(resourceList);
+		processRequest = processRequest + 1;
+		// check how long it took to process all the request
+		if (noOfRequest == getNoOfRequest()) {
+			// Reset the values
+			noOfRequest = 0;
+			noOfRequest = 0;
+		}
 		return "**********Following Resources Allocated*********"
 				+ resourceNames;
+	}
+
+	public int getNoOfRequest() {
+		return noOfRequest;
+	}
+
+	public void setNoOfRequest(int noOfRequest) {
+		this.noOfRequest = noOfRequest;
 	}
 }

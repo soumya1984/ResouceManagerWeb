@@ -66,9 +66,16 @@ public class XmlStringConvertor {
 			line = (Element) os.item(0);
 			System.out.println("os: " + getCharacterDataFromElement(line));
 			requestInstance.setOs(getCharacterDataFromElement(line));
+			
+			
 			NodeList algoritm = element.getElementsByTagName("algorithm");
 			line = (Element) algoritm.item(0);
 			System.out.println("algorithm: " + getCharacterDataFromElement(line));
+			requestInstance.setAlgorithm(getCharacterDataFromElement(line));
+			
+			NodeList count = element.getElementsByTagName("count");
+			line = (Element) count.item(0);
+			System.out.println("count: " + getCharacterDataFromElement(line));
 			requestInstance.setAlgorithm(getCharacterDataFromElement(line));
 		}
 		return requestInstance;

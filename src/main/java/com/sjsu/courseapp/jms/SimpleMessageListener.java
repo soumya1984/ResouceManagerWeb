@@ -25,6 +25,7 @@ public class SimpleMessageListener implements MessageListener {
 			System.out.println("CPU:"+request.getCpu_units());
 			System.out.println("MEMORY:"+request.getMemory());
 			System.out.println("REQUESTID"+request.getRequestId());
+			System.out.println("TotalCount:"+request.getTotalCount());
 			System.out.println("************************************************");
 			//resourceStorage.addRequestsToHashMap(request.getRequestId(), request);
 			LoadBalancer balancer = new LoadBalancer();
