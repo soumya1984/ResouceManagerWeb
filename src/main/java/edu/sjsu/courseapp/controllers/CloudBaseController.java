@@ -19,13 +19,10 @@ import edu.sjsu.courseapp.dao.jdbc.CloudDaoJdbcImpl;
 import edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl;
 import edu.sjsu.courseapp.dao.jdbc.RateDaoJdbcImpl;
 import edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl;
-import edu.sjsu.courseapp.services.ProductService;
+
 
 @Controller
 public class CloudBaseController {
-
-	@Autowired
-	ProductService productservice;
 	private static ApplicationContext context = null;
 	private static  ApplicationContext context1 ;
 	// private static ApplicationContext =null;
