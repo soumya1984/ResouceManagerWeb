@@ -277,6 +277,7 @@ $(document).ready(function(){
 					<div class="form-group">
 							<select class="form-control" name="request" id="request">
 								<option value=""></option>
+								<option value="1">1(Just for testing.)</option>
 								<option value="50">50</option>
 								<option value="100">100</option>
 								<option value="500">500</option>
