@@ -19,6 +19,7 @@ public class MainProgram {
 	public static void main(String args[]) {
 		try {
 			AmazonCloudWatchClient cws=	getCWC();
+			//cws.
 			System.out.println("::Server Name::"+cws.getServiceName());
 			System.out.println("::Server Name::"+cws.getRequestMetricsCollector());
 			

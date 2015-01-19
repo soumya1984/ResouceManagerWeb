@@ -8,7 +8,8 @@ import javax.jms.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sjsu.courseapp.pojo.ResourceRequest;
+import com.sjsu.courseapp.loadbalancer.LoadBalancer;
+
 
 public class SimpleMessageListener implements MessageListener {
 
@@ -17,13 +18,19 @@ public class SimpleMessageListener implements MessageListener {
 
 	public void onMessage(Message message) {
 		try {
+			//RequestResourceStorage resourceStorage = new RequestResourceStorage();
 			String responseMessage = ((TextMessage) message).getText();
-			ResourceRequest request =XmlStringConvertor.procesor(responseMessage);
+			com.sjsu.courseapp.loadbalancer.ResourceRequest request =XmlStringConvertor.procesor(responseMessage);
 			System.out.println("************************************************");
 			System.out.println("CPU:"+request.getCpu_units());
 			System.out.println("MEMORY:"+request.getMemory());
 			System.out.println("REQUESTID"+request.getRequestId());
 			System.out.println("************************************************");
+			//resourceStorage.addRequestsToHashMap(request.getRequestId(), request);
+			LoadBalancer balancer = new LoadBalancer();
+			//ant colony 
+			balancer.processRequest(request);
+			
 		} catch (JMSException e) {
 			LOG.error(e.getMessage(), e);
 			e.printStackTrace();

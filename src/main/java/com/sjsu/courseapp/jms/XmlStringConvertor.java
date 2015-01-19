@@ -12,14 +12,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import com.sjsu.courseapp.pojo.ResourceRequest;
-
 public class XmlStringConvertor {
-  public static ResourceRequest procesor(String xmlString) throws Exception{
+  public static com.sjsu.courseapp.loadbalancer.ResourceRequest procesor(String xmlString) throws Exception{
     DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     InputSource is = new InputSource();
     is.setCharacterStream(new StringReader(xmlString));
-	ResourceRequest requestInstance = new ResourceRequest();
+	com.sjsu.courseapp.loadbalancer.ResourceRequest requestInstance = new com.sjsu.courseapp.loadbalancer.ResourceRequest();
     Document doc = db.parse(is);
     NodeList nodes = doc.getElementsByTagName("request");
 

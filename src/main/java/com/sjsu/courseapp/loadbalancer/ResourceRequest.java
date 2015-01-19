@@ -1,20 +1,16 @@
-package com.sjsu.courseapp.pojo;
-
-
+package com.sjsu.courseapp.loadbalancer;
 
 public class ResourceRequest {
- 
+
 	private int requestId;
-	private int userId;
-	private String os;
-	private String Type; 
 	private int locationId;
-	private int cpu_units;	
+	private String osType;
+	private int cpu_units;
 	private int memory;
 	private int storage;
 	private boolean isAllocated;
 	private String request_description;
-	
+
 	public String getRequest_description() {
 		return request_description;
 	}
@@ -30,7 +26,7 @@ public class ResourceRequest {
 	public void setRequestId(int requestId) {
 		this.requestId = requestId;
 	}
-	
+
 	public int getLocationId() {
 		return locationId;
 	}
@@ -70,6 +66,12 @@ public class ResourceRequest {
 	public void setAllocated(boolean isAllocated) {
 		this.isAllocated = isAllocated;
 	}
-	
 
+	public String getOsType() {
+		return osType;
+	}
+
+	public void setOsType(String osType) {
+		this.osType = osType;
+	}
 }

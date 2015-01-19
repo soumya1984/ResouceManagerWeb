@@ -82,10 +82,22 @@
 </head>
 
 <body>
-	<% 
-	
-	
+	<%
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"root-context.xml");
+		InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
+				.getBean("instanceServ");
+		
+		Map<Integer, Double> userBilling=instance.getBillPerUser();
+		String result ="[";
+		for(Map.Entry data:userBilling.entrySet()){
+	       result=result+"{"+"y:"+data.getKey().toString()+", ";
+	       result=result+"a:"+data.getValue().toString()+"},";
+		}
+		result=result+"{}]";
 	%>
+	<c:set var="data" scope="request"
+	value="<%=result%>" />
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -220,52 +232,36 @@
 		</div>
 		<!-- /.navbar-collapse --> </nav>
 
-        <div id="page-wrapper">
+		<div id="page-wrapper">
 
-            <div class="container-fluid">
+			<div class="container-fluid">
 
-                Page Heading
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Charts
-                        </h1>
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-bar-chart-o"></i> Charts
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <div id="bar-example"></div>
-		<script>
-        Morris.Bar({
-          element: 'bar-example',
-          data: [
-            { y: '2006', a: 100, b: 90 },
-            { y: '2007', a: 75,  b: 65 },
-            { y: '2008', a: 50,  b: 40 },
-            { y: '2009', a: 75,  b: 65 },
-            { y: '2010', a: 50,  b: 40 },
-            { y: '2011', a: 75,  b: 65 },
-            { y: '2012', a: 100, b: 90 }
-          ],
-          xkey: 'y',
-          ykeys: ['a', 'b'],
-          labels: ['Series A', 'Series B']
-        });
-        
-        </script>
-		<!-- /#page-wrapper -->
+				Page Heading
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">Charts</h1>
+						<ol class="breadcrumb">
+							<li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a>
+							</li>
+							<li class="active"><i class="fa fa-bar-chart-o"></i> Charts
+							</li>
+						</ol>
+					</div>
+				</div>
+				<div id="bar-example"></div>
+				<script>
+					Morris.Bar({
+						element : 'bar-example',
+						data : <%=result%>,
+						xkey : 'y',
+						ykeys : [ 'a'],
+						labels : [ 'Series A', 'Series B' ]
+					});
+				</script>
+				<!-- /#page-wrapper -->
 
-	</div>
-	<!-- /#wrapper -->
-
-
-
+			</div>
+			<!-- /#wrapper -->
 </body>
 
 </html>
