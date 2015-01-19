@@ -4,35 +4,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl;
 
 public class BackendStorage {
-	// private static ApplicationContext context;
+	private static ApplicationContext context;
 	public static HashMap<String, Resources> resourceDetails = new HashMap<String, Resources>();
 	static {
-		// context = new ClassPathXmlApplicationContext("root-context.xml");
-		// InstanceDaoJdbcImpl instances = (InstanceDaoJdbcImpl) context
-		// .getBean("instanceServ");
-		// Resources resource = new Resources();
+		context = new ClassPathXmlApplicationContext("root-context.xml");
+		InstanceDaoJdbcImpl instances = (InstanceDaoJdbcImpl) context
+				.getBean("instanceServ");
+		Resources resource = new Resources();
 		// set instances details
-		// resource.setCpu_units(cpu_units)
-		Random rand = new Random();
-		int count = 50;
-		for (int i = 0; i < count / 2; i++) {
-
+		// resource.setCpu_units(instances.get)
+		for (int i = 0; i < instances.getInstanceallList().size(); i++) {
 			String resourceName = "EC2_" + i;
-			Resources resources = new Resources();
-			resources.setResourceName(resourceName);
-			resources.setLocationId(rand.nextInt(100) + 1);
-			resources.setCpu_units(rand.nextInt(100) + 1);
-			resources.setMemory(rand.nextInt(100) + 1);
-			resources.setStorage(rand.nextInt(200) + 1);
-			resources.setFullAllocation(false);
-			resources.setPartialAllocation(false);
-
-			addResourceToHashMap(resourceName, resources);
+			resource.setResourceName(resourceName);
+			resource.setCpu_units(Integer.parseInt(instances
+					.getInstanceallList().get(i).getCpu()));
+			resource.setCpu_units(Integer.parseInt(instances
+					.getInstanceallList().get(i).getCpu()));
+			resource.setMemory(Integer.parseInt(instances.getInstanceallList()
+					.get(i).getMemory()));
+			resource.setStorage(Integer.parseInt(instances.getInstanceallList()
+					.get(i).getStorage()));
+			resource.setOs((instances.getInstanceallList().get(i).getOs()));
+			resource.setType((instances.getInstanceallList().get(i).getType()));
+			resource.setFullAllocation(false);
+			resource.setPartialAllocation(false);
+			addResourceToHashMap(resourceName, resource);
 		}
-
 	}
 
 	public static void addResourceToHashMap(String resourceName,

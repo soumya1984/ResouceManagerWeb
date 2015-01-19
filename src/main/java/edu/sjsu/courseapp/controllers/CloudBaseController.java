@@ -85,21 +85,25 @@ public class CloudBaseController {
 			@RequestParam("request") int request,
 			@RequestParam("cpu") String cpu,
 			@RequestParam("country") String country,
-			@RequestParam("algorithm") String algorithm) {
+			@RequestParam("storage")String storage,
+			@RequestParam("algorithm") String algorithm,
+			@RequestParam("osType") String osType,
+			@RequestParam("os") String os) {
 		ModelAndView modelView;
 		System.out.println("*************************************");
 		System.out.println("email address::" + email);
 		System.out.println("memory::" + memory);
 		System.out.println("number of request::" + request);
 		System.out.println("no of cpu::" + cpu);
+		System.out.println("no of storage::" + storage);
 		System.out.println("country::" + country);
 		System.out.println("Algoritm" + algorithm);
 		System.out.println("*************************************");
 
 		String requestXML = "<request> <email>" + email + "</email>"
 				+ "<memory>" + memory + "</memory>" + "<requestId>"
-				+ rand.nextInt() + "</requestId>" + "<cpu>" + cpu + "</cpu>"
-				+ "</request>";
+				+ rand.nextInt() + "</requestId>" + "<cpu>" + cpu + "</cpu>"+ "<storage>" + storage + "</storage>"
+				+ "<osType>" + osType + "</osType>"+ "<os>" + os + "</os>"+ "</request>";
 		simpleMessageProducer.setNumberOfMessages(request);
 		try {
 			simpleMessageProducer.sendMessages(requestXML);

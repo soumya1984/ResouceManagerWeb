@@ -260,25 +260,39 @@ $(document).ready(function(){
                                 <input class="form-control" name="email" type="email" value="" id="email">
                                 <p class="help-block">Example block-level help text here.</p>
                             </div>
+                    	<div class="form-group">
+						<label for="memory" class="control-label"> Memory: </label>        
 					<div class="form-group">
 							<select class="form-control" name="memory" id="memory">
 								<option value=""></option>
-								<option value="8">8GB</option>
-								<option value="16">16GB</option>
-								<option value="32">32GB</option>
-								<option value="64">64GB</option>
-								<option value="128">128GB</option>
+								<option value="512">521MB</option>
+								<option value="1024">1024MB</option>
+								<option value="2048">2048MB</option>
 							</select>
 						</div>
+					</div>	
 					<div class="form-group">
 						<label for="request" class="control-label"> Number Of
 							Request </label>
 					<div class="form-group">
 							<select class="form-control" name="request" id="request">
 								<option value=""></option>
+								<option value="50">50</option>
 								<option value="100">100</option>
 								<option value="500">500</option>
 								<option value="1000">1000</option>
+							</select>
+						</div>
+					</div>
+					
+				<div class="form-group">
+						<label for="storage" class="control-label"> Storage: </label>
+					<div class="form-group">
+							<select class="form-control" name="storage" id="storage">
+								<option value=""></option>
+								<option value="16">16</option>
+								<option value="32">32</option>
+								<option value="64">64</option>
 							</select>
 						</div>
 					</div>
@@ -289,10 +303,18 @@ $(document).ready(function(){
 										<option value=""></option>
 										<option value="1">1</option>
 										<option value="2">2</option>
-										<option value="3">3</option>
 										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
+									</select>
+								</div>
+							</div>
+						<div class="form-group">
+								<label for="cpu" class="control-label"> Number Of CPU </label>
+								<div class="controls">
+									<select name="cpu" id="cpu" class="form-control">
+										<option value=""></option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="4">4</option>
 									</select>
 								</div>
 							</div>
@@ -396,6 +418,28 @@ $(document).ready(function(){
 							</select>
 						</div>
 					</div>
+					<div class="form-group">
+							<label for="osType" class="control-label"> OS Type: </label>
+							<div class="controls">
+								<select name="osType" id="osType" class="form-control">
+									<option value=""></option>
+									<option value="compute">Compute</option>
+									<option value="Mobile">Mobile</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="os" class="control-label"> OS </label>
+							<div class="controls">
+								<select name="os" id="os" class="form-control">
+									<option value=""></option>
+									<option value="ios">IOS</option>
+									<option value="android">Android</option>
+									<option value="linux">Linux</option>
+									<option value="windows">Windows</option>
+								</select>
+							</div>
+						</div>
 					<div class="form-group">
 							<label for="cpu" class="control-label"> Pick the
 								Algorithm you wish to choose. </label>
