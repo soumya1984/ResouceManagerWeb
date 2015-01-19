@@ -359,6 +359,8 @@
 								<div class="row">
 									<div class="col-xs-3">
 										<i class="glyphicons glyphicons-fire"></i>
+										<i class="fa fa-money fa-fw"></i>
+										
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">
