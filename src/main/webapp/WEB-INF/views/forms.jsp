@@ -308,17 +308,6 @@ $(document).ready(function(){
 									</select>
 								</div>
 							</div>
-						<div class="form-group">
-								<label for="cpu" class="control-label"> Number Of CPU </label>
-								<div class="controls">
-									<select name="cpu" id="cpu" class="form-control">
-										<option value=""></option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="4">4</option>
-									</select>
-								</div>
-							</div>
 							
 					<div class="form-group">
 						<label for="country" class="control-label"> Country </label>

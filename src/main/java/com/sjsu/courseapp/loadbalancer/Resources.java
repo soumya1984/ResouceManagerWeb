@@ -10,6 +10,7 @@ public class Resources {
 	private boolean fullAllocation;
 	private boolean partialAllocation;
 	private String os;
+	private String type;
 
 	public String getOs() {
 		return os;
@@ -27,7 +28,7 @@ public class Resources {
 		this.type = type;
 	}
 
-	private String type;
+
 
 	public int getCpu_units() {
 		return cpu_units;

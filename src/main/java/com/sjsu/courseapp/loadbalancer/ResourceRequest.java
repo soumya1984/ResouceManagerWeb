@@ -4,22 +4,6 @@ public class ResourceRequest {
 
 	private int requestId;
 	private int locationId;
-	public String getOs() {
-		return os;
-	}
-
-	public void setOs(String os) {
-		this.os = os;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	private String os;
 	private String type;
 	private int cpu_units;
@@ -82,5 +66,21 @@ public class ResourceRequest {
 
 	public void setAllocated(boolean isAllocated) {
 		this.isAllocated = isAllocated;
+	}
+
+	public String getOs() {
+		return os;
+	}
+
+	public void setOs(String os) {
+		this.os = os;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

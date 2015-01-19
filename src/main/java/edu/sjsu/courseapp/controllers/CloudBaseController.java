@@ -95,9 +95,12 @@ public class CloudBaseController {
 		System.out.println("memory::" + memory);
 		System.out.println("number of request::" + request);
 		System.out.println("no of cpu::" + cpu);
-		System.out.println("no of storage::" + storage);
+		System.out.println("storage::" + storage);
 		System.out.println("country::" + country);
-		System.out.println("Algoritm" + algorithm);
+		System.out.println("country::" + country);
+		System.out.println("osType::" + osType);
+		System.out.println("os::" + os);
+		System.out.println("Algoritm:" + algorithm);
 		System.out.println("*************************************");
 
 		String requestXML = "<request> <email>" + email + "</email>"
