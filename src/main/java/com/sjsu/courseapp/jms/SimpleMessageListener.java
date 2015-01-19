@@ -30,8 +30,7 @@ public class SimpleMessageListener implements MessageListener {
 			LoadBalancer balancer = new LoadBalancer();
 			//ant colony 
 			if(request.getAlgorithm().equals("ant"))
-			balancer.processRequest(request);
-			
+			balancer.antColonyRequestProcesor(request);
 		} catch (JMSException e) {
 			LOG.error(e.getMessage(), e);
 			e.printStackTrace();
