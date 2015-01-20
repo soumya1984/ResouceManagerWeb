@@ -92,7 +92,7 @@
 			Map<Integer, Double> billMap=instance.getBillPerUser();
 			double totalCharge=0;
 			for(Map.Entry map:billMap.entrySet()){
-		totalCharge=totalCharge+(Double) map.getValue();
+				totalCharge=totalCharge+(Double) map.getValue();
 			}
 
 
@@ -467,12 +467,8 @@
 													<th>Cloud Name</th>
 													<th>Private IP:</th>
 													<th>Public IP:</th>
-													<th>OS</th>
-													<th>Uptime</th>
 												</tr>
 											</thead>
-
-
 											<%
 												for(Cloud obj:cloudList) {
 											%>
@@ -493,7 +489,7 @@
 										</table>
 									</div>
 									<div class="text-right">
-										<a href="#">View All Transactions <i
+										<a href="#">View All <i
 											class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
@@ -514,17 +510,10 @@
 											<tr>
 												<th>Cloud Id #</th>
 												<th>CPU</th>
-												<th>Instance Id</th>
-												<th>Memory(GB)</th>
+												<th>Memory(MB)</th>
 												<th>Instance Name</th>
 												<th>OS</th>
 												<th>Uptime</th>
-												<!-- 											<th>Private IP</th>
-												<th>Public IP</th>
-												<th>Status</th>
-												<th>Storage</th>
-												<th>Uptime</th>
-												<th>User ID</th> -->
 											</tr>
 										</thead>
 
@@ -537,17 +526,10 @@
 											<tr>
 												<td><%=instanceObj.getCloudid()%></td>
 												<td><%=instanceObj.getCpu()%></td>
-												<td><%=instanceObj.getInstanceid()%></td>
 												<td><%=instanceObj.getMemory()%></td>
 												<td><%=instanceObj.getName()%></td>
 												<td><%=instanceObj.getOs()%></td>
-												<td><%=instanceObj.getUptime()%></td>
-												<%-- 												    <td><%instanceObj.getPrivateip(); %></td> --%>
-												<%-- 												    <td><%instanceObj.getPublicip(); %></td> --%>
-												<%-- 												    <td><%instanceObj.getStatus(); %></td> --%>
-												<%-- 												    <td><%instanceObj.getStorage(); %></td> --%>
-												<%-- 												    <td><%instanceObj.getUptime(); %></td> --%>
-												<%-- 												    <td><%instanceObj.getUserid(); %></td> --%>
+												<td><%=instanceObj.getUptime().toString()%></td>
 											</tr>
 										</tbody>
 										<%
@@ -557,7 +539,7 @@
 									</table>
 								</div>
 								<div class="text-right">
-									<a href="#">View All Transactions <i
+									<a href="#">View All  <i
 										class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
