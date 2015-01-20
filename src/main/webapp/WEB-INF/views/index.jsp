@@ -364,7 +364,7 @@
 									</div>
 									<div class="col-xs-9 text-right">
 										<div class="huge">
-											$<%=totalCharge%></div>
+											$<%=user.getTotalBillOfAllUsers()%></div>
 										<div class="huge">Billing!</div>
 									</div>
 								</div>

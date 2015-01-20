@@ -28,4 +28,5 @@ public interface UserDAO {
 	
 	public double getTotalBillOfUser(int userid);
 	
+	public double getTotalBillOfAllUsers();
 }

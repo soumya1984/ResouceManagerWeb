@@ -1,5 +1,6 @@
 package edu.sjsu.courseapp.dao.jdbc;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,6 +125,13 @@ public class UserDaoJdbcImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		String sql = "select totalbill from user where userid=?";
 		return jdbcTemplate.queryForObject(sql, Double.class, userid);
+	}
+	
+	@Override
+	public double getTotalBillOfAllUsers() {
+		// TODO Auto-generated method stub
+		String sql = "select sum(totalbill) from user";
+		return Double.parseDouble(new DecimalFormat("#.##").format(jdbcTemplate.queryForObject(sql, Double.class)));
 	}
 
 }
