@@ -34,6 +34,8 @@ public class SimpleMessageListener implements MessageListener {
 			//ant colony 
 			if(request.getAlgorithm().equals("ant"))
 			balancer.antColonyRequestProcesor(request);
+			else if(request.getAlgorithm().equals("geolocation"))
+				balancer.processGeoLocationRequest(request);
 		} catch (JMSException e) {
 			LOG.error(e.getMessage(), e);
 			e.printStackTrace();
