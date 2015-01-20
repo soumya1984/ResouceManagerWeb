@@ -16,6 +16,7 @@ public class SimpleMessageListener implements MessageListener {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(SimpleMessageListener.class);
 
+
 	public void onMessage(Message message) {
 		try {
 			//RequestResourceStorage resourceStorage = new RequestResourceStorage();
@@ -28,7 +29,8 @@ public class SimpleMessageListener implements MessageListener {
 			System.out.println("TotalCount:"+request.getTotalCount());
 			System.out.println("************************************************");
 			//resourceStorage.addRequestsToHashMap(request.getRequestId(), request);
-			LoadBalancer balancer = new LoadBalancer();
+			LoadBalancer balancer = new LoadBalancer(); 
+	        LoadBalancer.noOfRequest=request.getTotalCount();
 			//ant colony 
 			if(request.getAlgorithm().equals("ant"))
 			balancer.antColonyRequestProcesor(request);

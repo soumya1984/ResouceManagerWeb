@@ -1,25 +1,19 @@
 package com.sjsu.courseapp.loadbalancer;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sjsu.courseapp.jms.SimpleMessageListener;
+import org.joda.time.DateTime;
 
 public class LoadBalancer {
-	private static BackendStorage backendStorage = null;
-	private int noOfRequest = 0;
+	public static int noOfRequest = 0;
 	private int processRequest = 0;
-
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SimpleMessageListener.class);
-	static {
-		backendStorage = new BackendStorage();
-	}
+	private long endTime;
+	private static long startTime = new DateTime().getMillis();
+	BackendStorage backendStorage = new BackendStorage();
 
 	// Resource Allocation is done by Ant Colony Algorithm
-	public String antColonyRequestProcesor(ResourceRequest request) {
+	public synchronized String antColonyRequestProcesor(ResourceRequest request) {
 		System.out.println("Single Request");
 		System.out
 				.println("#####################################################################################################");
@@ -37,22 +31,18 @@ public class LoadBalancer {
 		System.out.println("Request Is Allocated? " + request.isAllocated());
 		System.out
 				.println("**********************************************************");
-
-		// diositing initial pheromen to each of the resource .
-		// consider each resource a cloud center .
-		// building the final ant colony map
 		ArrayList<Resources> resourceList = new ArrayList<Resources>(
 				backendStorage.getResourcesFromHashMap());
 		ArrayList<String> resourceNames = new ArrayList<String>();
 		resourceList = backendStorage.getResourcesFromHashMap();
-
 		while ((request.isAllocated() == false)) {
 			// loop through the all request and assign the proper one
-			for (Resources resource : resourceList) {
-				int resourceCpu = resource.getCpu_units();
-				int resourceMemory = resource.getMemory();
-				int resourceStorage = resource.getStorage();
-				if (resource.isFullAllocation() == false) {
+			//Iterator<Resources> it = resourceList.iterator();
+			for(int i=0;i<resourceList.size();i++) {
+				int resourceCpu = resourceList.get(i).getCpu_units();
+				int resourceMemory = resourceList.get(i).getMemory();
+				int resourceStorage = resourceList.get(i).getStorage();
+				if (resourceList.get(i).isFullAllocation() == false) {
 					if (Math.abs(resourceCpu) - Math.abs(requestCpu) > 0
 							|| Math.abs(resourceCpu) - Math.abs(requestCpu) == 0) {
 
@@ -72,11 +62,11 @@ public class LoadBalancer {
 								resourceStorage = Math.abs(resourceStorage)
 										- Math.abs(requestStorage);
 								// Update the resource List
-								resource.setCpu_units(resourceCpu);
-								resource.setMemory(resourceMemory);
-								resource.setStorage(resourceStorage);
+								resourceList.get(i).setCpu_units(resourceCpu);
+								resourceList.get(i).setMemory(resourceMemory);
+								resourceList.get(i).setStorage(resourceStorage);
 
-								resource.setFullAllocation(true);
+								resourceList.get(i).setFullAllocation(true);
 
 								// Set the request allocated to true
 								request.setAllocated(true);
@@ -90,30 +80,38 @@ public class LoadBalancer {
 								+ request.getRequestId() + " is Allocated");
 						System.out
 								.println("******************************************************************");
+						break;
 					}
 
 				}
+				//break;
 			}
-
+			processRequest = processRequest + 1;
 		}
 		resourceNames = backendStorage.updateResourcesInHashMap(resourceList);
-		processRequest = processRequest + 1;
 		// check how long it took to process all the request
-		if (noOfRequest == getNoOfRequest()) {
+		if (noOfRequest == processRequest) {
+			endTime = new DateTime().getMillis();
+			System.out
+					.println("**********************************************************");
+			System.out.println("End  Time:" + endTime);
+			System.out.println("Time Took:" + (endTime - startTime));
 			// Reset the values
 			noOfRequest = 0;
-			noOfRequest = 0;
+			processRequest = 0;
+			System.out
+					.println("**********************************************************");
 		}
 		return "**********Following Resources Allocated*********"
 				+ resourceNames;
 	}
 
-	public int getNoOfRequest() {
+	public static int getNoOfRequest() {
 		return noOfRequest;
 	}
 
-	public void setNoOfRequest(int noOfRequest) {
-		this.noOfRequest = noOfRequest;
+	public static void setNoOfRequest(int noOfRequest) {
+		LoadBalancer.noOfRequest = noOfRequest;
 	}
 
 	public String psoAlgorithm(ResourceRequest request) {

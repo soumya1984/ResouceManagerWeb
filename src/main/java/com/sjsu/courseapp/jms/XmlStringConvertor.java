@@ -76,7 +76,7 @@ public class XmlStringConvertor {
 			NodeList count = element.getElementsByTagName("count");
 			line = (Element) count.item(0);
 			System.out.println("count: " + getCharacterDataFromElement(line));
-			requestInstance.setAlgorithm(getCharacterDataFromElement(line));
+			requestInstance.setTotalCount(Integer.parseInt(getCharacterDataFromElement(line)));
 		}
 		return requestInstance;
 	}

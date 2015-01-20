@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 
+import com.sjsu.courseapp.loadbalancer.BackendStorage;
+import com.sjsu.courseapp.loadbalancer.LoadBalancer;
+
 public class SimpleMessageProducer {
     
     private static final Logger LOG = LoggerFactory.getLogger(SimpleMessageProducer.class);
@@ -33,7 +36,6 @@ public class SimpleMessageProducer {
 
 	public void sendMessages(final String payload) throws JMSException {
         final StringBuilder buffer = new StringBuilder(); 
-        
         for (int i = 0; i < numberOfMessages; ++i) {
             buffer.append("Message '").append(i).append("' sent at: ").append(new Date());
             

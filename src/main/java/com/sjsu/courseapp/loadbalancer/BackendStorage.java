@@ -15,30 +15,30 @@ import edu.sjsu.courseapp.domain.Instance;
 public class BackendStorage {
 	private static ApplicationContext context;
 	public static HashMap<String, Resources> resourceDetails = new HashMap<String, Resources>();
+
 	static {
-		context = new ClassPathXmlApplicationContext("root-context.xml");
-		InstanceDaoJdbcImpl instances = (InstanceDaoJdbcImpl) context
-				.getBean("instanceServ");
-		Resources resource = new Resources();
-		// set instances details
-		// resource.setCpu_units(instances.get)
-		List<Instance> insList = instances.getInstanceallList();
-		for (int i = 0; i < insList.size(); i++) {
-			String resourceName = "EC2_" + i;
-			resource.setResourceName(resourceName);
-			resource.setCpu_units(Integer.parseInt(instances
-					.getInstanceallList().get(i).getCpu()));
-			resource.setCpu_units(Integer.parseInt(instances
-					.getInstanceallList().get(i).getCpu()));
-			resource.setMemory(Integer.parseInt(instances.getInstanceallList()
-					.get(i).getMemory()));
-			resource.setStorage(Integer.parseInt(instances.getInstanceallList()
-					.get(i).getStorage()));
-			resource.setOs((instances.getInstanceallList().get(i).getOs()));
-			resource.setType((instances.getInstanceallList().get(i).getType()));
-			resource.setFullAllocation(false);
-			resource.setPartialAllocation(false);
-			addResourceToHashMap(resourceName, resource);
+		if (context == null)
+			context = new ClassPathXmlApplicationContext("root-context.xml");
+		if (resourceDetails.size() == 0) {
+			InstanceDaoJdbcImpl instances = (InstanceDaoJdbcImpl) context
+					.getBean("instanceServ");
+			// set instances details
+			// resource.setCpu_units(instances.get)
+			List<Instance> insList = instances.getInstanceallList();
+			for (int i = 0; i < insList.size(); i++) {
+				Resources resource = new Resources();
+				String resourceName = "EC2_" + i;
+				resource.setResourceName(resourceName);
+				resource.setCpu_units(Integer.parseInt(insList.get(i).getCpu()));
+				resource.setMemory(Integer.parseInt(insList.get(i).getMemory()));
+				resource.setStorage(Integer.parseInt(instances
+						.getInstanceallList().get(i).getStorage()));
+				resource.setOs((insList.get(i).getOs()));
+				resource.setType((insList.get(i).getType()));
+				resource.setFullAllocation(false);
+				resource.setPartialAllocation(false);
+				addResourceToHashMap(resourceName, resource);
+			}
 		}
 	}
 
