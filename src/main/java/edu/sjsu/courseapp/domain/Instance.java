@@ -3,6 +3,8 @@ package edu.sjsu.courseapp.domain;
 
 
 import java.io.Serializable;
+import java.sql.Time;
+import java.text.DecimalFormat;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,7 +35,8 @@ public class Instance implements Serializable {
 	private String storage;
 	private String publicip;
 	private String privateip;
-	private long uptime;
+	private Time uptime;
+	private double bill;
 	private int userid;
 
 	public Instance(){
@@ -41,7 +44,7 @@ public class Instance implements Serializable {
 	}
 	
 	public Instance(int cloudid , int instanceid, String name, String status, String type, String os, 
-			String cpu, String memory, String storage, String publicip, String privateip, long uptime , int userid) {
+			String cpu, String memory, String storage, String publicip, String privateip, Time uptime , double bill , int userid) {
 		this.instanceid = instanceid;
 		this.cloudid = cloudid;
 		this.name = name;
@@ -54,6 +57,7 @@ public class Instance implements Serializable {
 		this.publicip = publicip;
 		this.privateip=privateip;
 		this.uptime=uptime;
+		this.bill=bill;
 		this.userid=userid;
 	}
 
@@ -93,8 +97,12 @@ public class Instance implements Serializable {
 		return storage;
 	}
 
-	public long getUptime() {
+	public Time getUptime() {
 		return uptime;
+	}
+	
+	public double getBill() {
+		return Double.parseDouble(new DecimalFormat("#.##").format(bill));
 	}
 
 	public int getUserid() {
@@ -166,8 +174,13 @@ public class Instance implements Serializable {
 	}
 
 	@XmlElement(name = "uptime")
-	public void setUptime(long uptime) {
+	public void setUptime(Time uptime) {
 		this.uptime = uptime;
+	}
+
+	@XmlElement(name = "bill")
+	public void setBill(double bill) {
+		this.bill = bill;
 	}
 
 	@XmlElement(name = "userid")
