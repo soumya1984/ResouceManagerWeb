@@ -76,9 +76,9 @@ body{
 		   <td>${user_list.getCreditcard()}</td>
 		   <td>${user_list.getEmailid()}</td>
 		   <td>${user_list.getPhone()}</td>
-		   <td>${user_list.getTotalbill()}</td>
+		   <td>$${user_list.getTotalbill()}</td>
 		   <td>${user_list.getPaidbill()}</td>
-		   <td>${user_list.getTotalbill()-user_list.getPaidbill()}</td>
+		   <td>$${user_list.getTotalbill()-user_list.getPaidbill()}</td>
 		</tr>
 	</c:forEach>
 </table>

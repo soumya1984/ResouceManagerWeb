@@ -87,7 +87,7 @@ body{
 		   <td>${instance_list.getPublicip()}</td>
 		   <td>${instance_list.getPrivateip()}</td>
 		   <td>${instance_list.getUptime()}</td>
-		   <td>${instance_list.getBill()}</td>
+		   <td>$${instance_list.getBill()}</td>
 		   <td>${instance_list.getUserid()}</td>
 		</tr>
 	</c:forEach>
