@@ -115,4 +115,71 @@ public class LoadBalancer {
 	public void setNoOfRequest(int noOfRequest) {
 		this.noOfRequest = noOfRequest;
 	}
+
+	public String psoAlgorithm(ResourceRequest request) {
+
+		int resourceCpu, resourceMemory, resourceStorage;
+		// request parameter received from the request.
+		int requestId = request.getRequestId();
+		int requestCpu = request.getCpu_units();
+		int requestMemory = request.getMemory();
+		int requestStorage = request.getStorage();
+		
+		ArrayList<Resources> resourceList = new ArrayList<Resources>(
+				backendStorage.getResourcesFromHashMap());
+		ArrayList<String> resourceNames = new ArrayList<String>();
+		resourceList = backendStorage.getResourcesFromHashMap();
+
+		for (Resources resource : resourceList) {
+			if (resource.isFullAllocation() == false) {
+
+				resourceCpu = resource.getCpu_units();
+				resourceMemory = resource.getMemory();
+				resourceStorage = resource.getStorage();
+
+				if (resourceCpu > requestCpu && resourceMemory > requestMemory
+						&& resourceStorage > requestStorage) {
+					// Update the resource List
+					resource.setCpu_units(resourceCpu - requestCpu);
+					resource.setMemory(resourceMemory - requestMemory);
+					resource.setStorage(resourceStorage - requestMemory);
+
+					resource.setFullAllocation(true);
+
+					// Set the request allocated to true
+					request.setAllocated(true);
+				}
+
+			}
+		}
+
+		if (request.isAllocated() == true) {
+			System.out
+					.println("******************************************************************");
+			System.out.println("Request ID: " + requestId + " is Allocated");
+			System.out
+					.println("******************************************************************");
+		} else {
+			if (request.isAllocated() == true) {
+				System.out
+						.println("******************************************************************");
+				System.out.println("Request ID: " + request.getRequestId()
+						+ " is failed. No Suitable Host.");
+				System.out
+						.println("******************************************************************");
+			}
+		}
+		
+		resourceNames = backendStorage.updateResourcesInHashMap(resourceList);
+		processRequest = processRequest + 1;
+		// check how long it took to process all the request
+		if (noOfRequest == getNoOfRequest()) {
+			// Reset the values
+			noOfRequest = 0;
+			noOfRequest = 0;
+		}
+		return "**********Following Resources Allocated*********"
+				+ resourceNames;
+
+	}
 }
