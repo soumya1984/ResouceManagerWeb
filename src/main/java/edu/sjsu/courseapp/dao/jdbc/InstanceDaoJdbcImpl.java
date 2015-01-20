@@ -137,30 +137,6 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 	}
 
 	@Override
-	public Map<Integer, Double> getBillPerUser() {
-		String sql = "select * from instance order by userid asc";
-		List<Instance> instanceList = jdbcTemplate
-				.query(sql, instanceRowMapper);
-		Map<Integer, Double>  map = new TreeMap<Integer, Double>();
-		for(Instance instance:instanceList){
-			double amount;
-			amount = instance.getInstanceid()*2;
-			amount =(instance.getUptime().getHours()*60 + instance.getUptime().getMinutes())*amount;
-			System.out.println("Instance Name" + instance.getName() +  " Uptime()" + instance.getUptime().getMinutes());
-			if(map.get(instance.getUserid())!=null){
-			  double tempAmount = map.get(instance.getUserid());
-			  amount = amount + tempAmount;
-			  map.put(instance.getUserid(), amount);
-			}else{
-				 map.put(instance.getUserid(), amount);
-			}
-			System.out.println(amount);
-		}
-
-		return map;
-	}
-	
-	@Override
 	public List<Instance> getInstances(int userid) {
 		String sql = "select name from instance where userid=?";
 		List<Instance> instanceList = jdbcTemplate

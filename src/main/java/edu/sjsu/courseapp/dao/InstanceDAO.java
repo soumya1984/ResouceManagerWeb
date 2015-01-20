@@ -25,8 +25,6 @@ public interface InstanceDAO {
 	
 	public List<Instance> getInstanceallList() ;
 	
-	public Map<Integer, Double> getBillPerUser();
-
 	public List<Instance> getInstances(int userid);
 	
 	public int updateBillOfAllInstances();

@@ -89,13 +89,6 @@
 
 			List<Instance> instanceList = instance.getInstanceallList();
 			
-			Map<Integer, Double> billMap=instance.getBillPerUser();
-			double totalCharge=0;
-			for(Map.Entry map:billMap.entrySet()){
-				totalCharge=totalCharge+(Double) map.getValue();
-			}
-
-
 			CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
 			.getBean("cloudServ");
 			int cloudCount = cloud.getCloudCount();
