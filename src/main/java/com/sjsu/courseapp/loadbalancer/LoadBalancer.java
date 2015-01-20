@@ -1,13 +1,12 @@
 package com.sjsu.courseapp.loadbalancer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.joda.time.DateTime;
 
 public class LoadBalancer {
 	public static int noOfRequest = 0;
-	private int processRequest = 0;
+	private static int processRequest = 0;
 	private long endTime;
 	private static long startTime = new DateTime().getMillis();
 	BackendStorage backendStorage = new BackendStorage();
@@ -86,8 +85,8 @@ public class LoadBalancer {
 				}
 				//break;
 			}
-			processRequest = processRequest + 1;
 		}
+		processRequest = processRequest + 1;
 		resourceNames = backendStorage.updateResourcesInHashMap(resourceList);
 		// check how long it took to process all the request
 		if (noOfRequest == processRequest) {
