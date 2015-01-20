@@ -34,12 +34,12 @@ public class SimpleMessageProducer {
 		this.jmsTemplate = jmsTemplate;
 	}
 
-	public void sendMessages(final String payload) throws JMSException {
+	public void sendMessages(int nextInt,final String payload) throws JMSException {
         final StringBuilder buffer = new StringBuilder(); 
-        for (int i = 0; i < numberOfMessages; ++i) {
-            buffer.append("Message '").append(i).append("' sent at: ").append(new Date());
+
+            buffer.append("Message '").append("' sent at: ").append(new Date());
             
-            final int count = i;
+           final int count = nextInt;
            // final String payload = buffer.toString();
             
             jmsTemplate.send(new MessageCreator() {
@@ -52,4 +52,3 @@ public class SimpleMessageProducer {
             });
         }
     }
-}
