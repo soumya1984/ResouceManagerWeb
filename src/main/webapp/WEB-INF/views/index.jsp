@@ -409,7 +409,7 @@
 								<i class="fa fa-cloud fa-3x"></i> Newyork City
 							</div>
 							<div class="col-xs-6">
-								<div class="text-temp">10°</div>
+								<div class="text-temp">10Â°</div>
 							</div>
 						</div>
 					</div>
