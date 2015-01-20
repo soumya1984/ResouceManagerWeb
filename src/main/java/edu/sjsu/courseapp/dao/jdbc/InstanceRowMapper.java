@@ -1,7 +1,13 @@
 package edu.sjsu.courseapp.dao.jdbc;
+/**
+ * 
+ * @author Sudip
+ * 
+ */
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -25,7 +31,8 @@ public Instance mapRow(ResultSet rs, int rowNum) throws SQLException {
 	String storage;
 	String publicip;
 	String privateip;
-	long uptime;
+	Time uptime;
+	Double bill;
 	int userid;
 
 	cloudid = rs.getInt("cloudid");
@@ -39,7 +46,8 @@ public Instance mapRow(ResultSet rs, int rowNum) throws SQLException {
 	storage = rs.getString("storage");
 	publicip = rs.getString("publicip");
 	privateip = rs.getString("privateip");
-	uptime = rs.getLong("uptime");
+	uptime = rs.getTime("uptime");
+	bill = rs.getDouble("bill");
 	userid = rs.getInt("userid");
 	
 	Instance instance = new Instance();
@@ -56,6 +64,7 @@ public Instance mapRow(ResultSet rs, int rowNum) throws SQLException {
 	instance.setPublicip(publicip);
 	instance.setPrivateip(privateip);
 	instance.setUptime(uptime);
+	instance.setBill(bill);
 	instance.setUserid(userid);
 
 	return instance;
