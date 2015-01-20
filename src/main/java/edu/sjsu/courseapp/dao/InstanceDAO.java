@@ -1,5 +1,11 @@
 package edu.sjsu.courseapp.dao;
 
+/**
+ * 
+ * @author Sudip
+ * 
+ */
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,4 +27,8 @@ public interface InstanceDAO {
 	
 	public Map<Integer, Double> getBillPerUser();
 
+	public List<Instance> getInstances(int userid);
+	
+	public int updateBillOfAllInstances();
+	
 }
