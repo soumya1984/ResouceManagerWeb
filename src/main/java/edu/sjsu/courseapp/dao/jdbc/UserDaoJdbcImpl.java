@@ -3,6 +3,7 @@ package edu.sjsu.courseapp.dao.jdbc;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -18,6 +19,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import edu.sjsu.courseapp.dao.UserDAO;
+import edu.sjsu.courseapp.domain.Instance;
 import edu.sjsu.courseapp.domain.User;
 
 @Repository("UserDaoJdbcImpl")
@@ -101,42 +103,27 @@ public class UserDaoJdbcImpl implements UserDAO {
 
 	@Override
 	public List<User> getUserallList() {
+		updateBillOfAllUsers();
 		String sql = "select * from user";
 		List<User> userList = jdbcTemplate.query(sql, userRowMapper);
 		return userList;
 	}
 
 	
-	
-	
-//	public int updateTotalOrders(Product prod, int change) {
-//		String sql = "update product set totalOrders=:newTotalOrders where id=:id";
-//		int curTotalOrders, newTotalOrders;
-//		String prodName;
-//		MapSqlParameterSource params;
-//		int rowsAffected;
-//		double prodId = prod.getSku();
-//
-//		prodName = prod.getName();
-//		curTotalOrders = findTotalOrdersByName(prodName);
-//		newTotalOrders = curTotalOrders + change;
-//
-//		params = new MapSqlParameterSource("id", prodId);
-//		params.addValue("newTotalOrders", newTotalOrders);
-//		rowsAffected = namedTemplate.update(sql, params);
-//		return rowsAffected;
-//	}
-	
-//	public int findTotalOrdersByName(String prodName) {
-//		String sql = "select totalOrders from Product where name=?";
-//		return jdbcTemplate.queryForInt(sql, prodName);
-//	}
-//
-//	public List<String> findProdsWithLessThanTotalOrder(int orderCnt) {
-//		String sql = "select name from Product where totalOrders<?";
-//		return jdbcTemplate.queryForList(sql, String.class, orderCnt);
-//	}
+	@Override
+	public int updateBillOfAllUsers() {
+		String sql = "update user u set totalbill=(select sum(bill) from instance i where i.userid=u.userid)  ;";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		int rowsAffected;
+		rowsAffected = namedTemplate.update(sql, params);
+		return rowsAffected;
+	}
 
+	@Override
+	public double getTotalBillOfUser(int userid) {
+		// TODO Auto-generated method stub
+		String sql = "select totalbill from user where userid=?";
+		return jdbcTemplate.queryForObject(sql, Double.class, userid);
+	}
 
-	
 }
