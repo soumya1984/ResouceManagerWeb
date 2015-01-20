@@ -1,5 +1,10 @@
 package edu.sjsu.courseapp.dao.jdbc;
-
+/**
+ * 
+ * @author Sudip
+ * 
+ */
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +25,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.sjsu.courseapp.dao.InstanceDAO;
 import edu.sjsu.courseapp.domain.Instance;
+import edu.sjsu.courseapp.domain.Rate;
 
 @Repository("InstanceDaoJdbcImpl")
 public class InstanceDaoJdbcImpl implements InstanceDAO {
@@ -40,7 +46,7 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 		jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("instance")
 				.usingColumns("instanceid", "cloudid", "name", "status",
 						"type", "os", "cpu", "memory", "storage", "publicip",
-						"privateip", "uptime", "userid");
+						"privateip", "uptime", "bill", "userid");
 		instanceRowMapper = new InstanceRowMapper();
 
 	}
@@ -65,6 +71,7 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 			map.put("publicip", instance.getPublicip());
 			map.put("privateip", instance.getPrivateip());
 			map.put("uptime", instance.getUptime());
+			map.put("bill", instance.getBill());
 			map.put("userid", instance.getUserid());
 			int newId = jdbcInsert.execute(map);
 			instance.setInstanceid(newId);
@@ -107,12 +114,14 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 
 	@Override
 	public List<Instance> getInstanceallList() {
+		updateBillOfAllInstances();
 		String sql = "select * from instance";
 		List<Instance> instanceList = jdbcTemplate
 				.query(sql, instanceRowMapper);
 		return instanceList;
 	}
-
+	
+	
 	public int updateInstance(Instance instance, int userid) {
 		String sql = "update instance set userid=:userid where instanceid=:id";
 		int id;
@@ -129,14 +138,15 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 
 	@Override
 	public Map<Integer, Double> getBillPerUser() {
-		String sql = "select * from test.instance order by userid asc";
+		String sql = "select * from instance order by userid asc";
 		List<Instance> instanceList = jdbcTemplate
 				.query(sql, instanceRowMapper);
 		Map<Integer, Double>  map = new TreeMap<Integer, Double>();
 		for(Instance instance:instanceList){
 			double amount;
 			amount = instance.getInstanceid()*2;
-			amount =instance.getUptime()*amount;
+			amount =(instance.getUptime().getHours()*60 + instance.getUptime().getMinutes())*amount;
+			System.out.println("Instance Name" + instance.getName() +  " Uptime()" + instance.getUptime().getMinutes());
 			if(map.get(instance.getUserid())!=null){
 			  double tempAmount = map.get(instance.getUserid());
 			  amount = amount + tempAmount;
@@ -149,34 +159,37 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 
 		return map;
 	}
+	
+	@Override
+	public List<Instance> getInstances(int userid) {
+		String sql = "select name from instance where userid=?";
+		List<Instance> instanceList = jdbcTemplate
+				.query(sql, instanceRowMapper,  userid);
+		return instanceList;
+	}
+	
+	
+	public int updateBillOfAllInstance(int instanceid, double billPerInstance) {
 
-	// public int updateTotalOrders(Product prod, int change) {
-	// String sql =
-	// "update product set totalOrders=:newTotalOrders where id=:id";
-	// int curTotalOrders, newTotalOrders;
-	// String prodName;
-	// MapSqlParameterSource params;
-	// int rowsAffected;
-	// double prodId = prod.getSku();
-	//
-	// prodName = prod.getName();
-	// curTotalOrders = findTotalOrdersByName(prodName);
-	// newTotalOrders = curTotalOrders + change;
-	//
-	// params = new MapSqlParameterSource("id", prodId);
-	// params.addValue("newTotalOrders", newTotalOrders);
-	// rowsAffected = namedTemplate.update(sql, params);
-	// return rowsAffected;
-	// }
-
-	// public int findTotalOrdersByName(String prodName) {
-	// String sql = "select totalOrders from Product where name=?";
-	// return jdbcTemplate.queryForInt(sql, prodName);
-	// }
-	//
-	// public List<String> findProdsWithLessThanTotalOrder(int orderCnt) {
-	// String sql = "select name from Product where totalOrders<?";
-	// return jdbcTemplate.queryForList(sql, String.class, orderCnt);
-	// }
+		String sql = "update instance set bill=:billPerInstance where instanceid=:instanceid";
+		MapSqlParameterSource params;
+		params = new MapSqlParameterSource("instanceid", instanceid);
+		params.addValue("billPerInstance", billPerInstance);
+		int rowsAffected = namedTemplate.update(sql, params);
+		return rowsAffected;
+	}
+	
+	public int updateBillOfAllInstances() {
+		String sql = "update instance i set bill=(select ( (TIME_TO_SEC(i.uptime) / 60) * ((i.cpu * (select costpermin from rate r where r.type=i.type and r.component="
+				+ "\"cpu\""
+				+ "))  + (i.memory * (select costpermin from rate r where r.type=i.type and r.component="
+				+ "\"memory\""
+				+ ")) +  (i.storage * (select costpermin from rate r where r.type=i.type and r.component="
+				+ "\"storage\"" + ")) )))";
+		MapSqlParameterSource params;
+		params = new MapSqlParameterSource();
+		int rowsAffected = namedTemplate.update(sql, params);
+		return rowsAffected;
+	}
 
 }
