@@ -399,10 +399,10 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-xs-6">
-								<i class="fa fa-cloud fa-3x"></i> Newyork City
+								<i class="fa fa-cloud fa-3x"></i> San Francisco
 							</div>
 							<div class="col-xs-6">
-								<div class="text-temp">10Â°</div>
+								<div class="text-temp">50°F</div>
 							</div>
 						</div>
 					</div>
