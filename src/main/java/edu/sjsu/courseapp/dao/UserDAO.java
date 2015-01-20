@@ -1,5 +1,11 @@
 package edu.sjsu.courseapp.dao;
 
+/**
+ * 
+ * @author Sudip
+ * 
+ */
+
 import java.util.List;
 
 import edu.sjsu.courseapp.domain.User;
@@ -17,5 +23,9 @@ public interface UserDAO {
 	public void deleteUser(int userid);
 	
 	public List<User> getUserallList() ;
-
+	
+	public int updateBillOfAllUsers();
+	
+	public double getTotalBillOfUser(int userid);
+	
 }
