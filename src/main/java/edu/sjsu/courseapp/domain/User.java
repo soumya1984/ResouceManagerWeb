@@ -3,6 +3,7 @@ package edu.sjsu.courseapp.domain;
 
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -65,11 +66,11 @@ public class User implements Serializable {
 	}
 
 	public double getTotalbill() {
-		return totalbill;
+		return Double.parseDouble(new DecimalFormat("#.##").format(totalbill));
 	}
 
 	public double getPaidbill() {
-		return paidbill;
+		return Double.parseDouble(new DecimalFormat("#.##").format(paidbill));
 	}
 
 	@XmlElement(name = "userid")
