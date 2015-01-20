@@ -20,18 +20,19 @@ import edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl;
 import edu.sjsu.courseapp.dao.jdbc.RateDaoJdbcImpl;
 import edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl;
 
+
 @Controller
 public class CloudBaseController {
 	private static ApplicationContext context = null;
-	private static ApplicationContext context1;
+	private static  ApplicationContext context1 ;
 	// private static ApplicationContext =null;
-	static SimpleMessageProducer simpleMessageProducer = null;
+	static SimpleMessageProducer simpleMessageProducer=null;
 	Random rand = new Random();
 	static {
 		context = new ClassPathXmlApplicationContext("producer-jms-context.xml");
 		simpleMessageProducer = (SimpleMessageProducer) context
 				.getBean("messageProducer");
-		context1 = new ClassPathXmlApplicationContext("root-context.xml");
+		context1= new ClassPathXmlApplicationContext("root-context.xml");
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class CloudBaseController {
 		modelView = new ModelAndView("generator");
 		return modelView;
 	}
-
+	
 	/**
 	 * function to call the requst genarator
 	 * 
@@ -81,9 +82,10 @@ public class CloudBaseController {
 			@RequestParam("request") int request,
 			@RequestParam("cpu") String cpu,
 			@RequestParam("country") String country,
-			@RequestParam("storage") String storage,
+			@RequestParam("storage")String storage,
 			@RequestParam("algorithm") String algorithm,
-			@RequestParam("osType") String osType, @RequestParam("os") String os) {
+			@RequestParam("osType") String osType,
+			@RequestParam("os") String os) {
 		ModelAndView modelView;
 		System.out.println("*************************************");
 		System.out.println("email address::" + email);
@@ -97,19 +99,14 @@ public class CloudBaseController {
 		System.out.println("os::" + os);
 		System.out.println("Algoritm:" + algorithm);
 		System.out.println("*************************************");
-		try {
-			for (int i = 0; i < request; ++i) {
-				String requestXML = "<request> <email>" + email + "</email>"
-						+ "<memory>" + memory + "</memory>" + "<requestId>"
-						+ rand.nextInt() + "</requestId>" + "<cpu>" + cpu
-						+ "</cpu>" + "<storage>" + storage + "</storage>"
-						+ "<osType>" + osType + "</osType>" + "<os>" + os
-						+ "</os>" + "<algorithm>" + algorithm + "</algorithm>"
-						+ "<count>" + request + "</count>" + "</request>";
-				simpleMessageProducer.setNumberOfMessages(request);
-				simpleMessageProducer.sendMessages(rand.nextInt(),requestXML);
-			}
 
+		String requestXML = "<request> <email>" + email + "</email>"
+				+ "<memory>" + memory + "</memory>" + "<requestId>"
+				+ rand.nextInt() + "</requestId>" + "<cpu>" + cpu + "</cpu>"+ "<storage>" + storage + "</storage>"
+				+ "<osType>" + osType + "</osType>"+ "<os>" + os + "</os>"+ "<algorithm>" + algorithm + "</algorithm>"+ "<count>" + request + "</count>"+"</request>";
+		simpleMessageProducer.setNumberOfMessages(request);
+		try {
+			simpleMessageProducer.sendMessages(requestXML);
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,110 +114,107 @@ public class CloudBaseController {
 		modelView = new ModelAndView("generatorResponse");
 		return modelView;
 	}
-
 	/**
-	 * Load the clouds page jsp
-	 * 
+	 * Load the clouds page jsp 
 	 * @return
 	 */
 	@RequestMapping(value = "/clouds", method = RequestMethod.GET)
 	public ModelAndView newCloudDataForm() {
-		ModelAndView modelView = null;
+		ModelAndView modelView=null;
 		try {
 			modelView = new ModelAndView("clouds");
-			CloudDaoJdbcImpl cs = (CloudDaoJdbcImpl) context1
-					.getBean("cloudServ");
+			CloudDaoJdbcImpl cs = (CloudDaoJdbcImpl)context1.getBean("cloudServ");
 			modelView.addObject("cloud_list", cs.getCloudallList());
 			return modelView;
-
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return modelView;
 	}
-
+	
+	
 	/**
-	 * Load the instances page jsp
-	 * 
+	 * Load the instances page jsp 
 	 * @return
 	 */
 	@RequestMapping(value = "/instances", method = RequestMethod.GET)
 	public ModelAndView newInstanceDataForm() {
-		ModelAndView modelView = null;
+		ModelAndView modelView=null;
 		try {
 			modelView = new ModelAndView("instances");
-			InstanceDaoJdbcImpl cs = (InstanceDaoJdbcImpl) context1
-					.getBean("instanceServ");
+			InstanceDaoJdbcImpl cs = (InstanceDaoJdbcImpl)context1.getBean("instanceServ");
 			modelView.addObject("instance_list", cs.getInstanceallList());
 			return modelView;
-
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return modelView;
 	}
-
+	
+	
 	/**
-	 * Load the users page jsp
-	 * 
+	 * Load the users page jsp 
 	 * @return
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ModelAndView newUserDataForm() {
-		ModelAndView modelView = null;
+		ModelAndView modelView=null;
 		try {
 			modelView = new ModelAndView("users");
-			UserDaoJdbcImpl cs = (UserDaoJdbcImpl) context1.getBean("userServ");
+			UserDaoJdbcImpl cs = (UserDaoJdbcImpl)context1.getBean("userServ");
 			modelView.addObject("user_list", cs.getUserallList());
 			return modelView;
-
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return modelView;
 	}
-
+	
 	/**
-	 * Load the rates page jsp
-	 * 
+	 * Load the rates page jsp 
 	 * @return
 	 */
 	@RequestMapping(value = "/rates", method = RequestMethod.GET)
 	public ModelAndView newRateDataForm() {
-		ModelAndView modelView = null;
+		ModelAndView modelView=null;
 		try {
 			modelView = new ModelAndView("rates");
-			RateDaoJdbcImpl cs = (RateDaoJdbcImpl) context1.getBean("rateServ");
+			RateDaoJdbcImpl cs = (RateDaoJdbcImpl)context1.getBean("rateServ");
 			modelView.addObject("rate_list", cs.getRateallList());
 			return modelView;
-
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return modelView;
 	}
-
+	
 	/**
-	 * Load the home page jsp
-	 * 
+	 * Load the home page jsp 
 	 * @return
 	 */
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView newHomeDataForm() {
-		ModelAndView modelView = null;
+		ModelAndView modelView=null;
 		try {
 			modelView = new ModelAndView("home");
 			return modelView;
-
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return modelView;
 	}
+	
 
-}
+}	
+	
+
