@@ -69,6 +69,7 @@ body{
 	<th> Public IP </th>
 	<th> Private IP </th>
 	<th> Up Time </th>
+	<th> Bill </th>
 	<th> User ID </th>
 
 </tr>
@@ -86,6 +87,7 @@ body{
 		   <td>${instance_list.getPublicip()}</td>
 		   <td>${instance_list.getPrivateip()}</td>
 		   <td>${instance_list.getUptime()}</td>
+		   <td>${instance_list.getBill()}</td>
 		   <td>${instance_list.getUserid()}</td>
 		</tr>
 	</c:forEach>
