@@ -28,9 +28,9 @@ public class Instance implements Serializable {
 	private String status;
 	private String type;
 	private String os;
-	private String cpu;
-	private String memory;
-	private String storage;
+	private int cpu;
+	private int memory;
+	private int storage;
 	private String publicip;
 	private String privateip;
 	private Time uptime;
@@ -42,7 +42,7 @@ public class Instance implements Serializable {
 	}
 	
 	public Instance(int cloudid , int instanceid, String name, String status, String type, String os, 
-			String cpu, String memory, String storage, String publicip, String privateip, Time uptime , double bill , int userid) {
+			int cpu, int memory, int storage, String publicip, String privateip, Time uptime , double bill , int userid) {
 		this.instanceid = instanceid;
 		this.cloudid = cloudid;
 		this.name = name;
@@ -83,15 +83,15 @@ public class Instance implements Serializable {
 		return os;
 	}
 
-	public String getCpu() {
+	public int getCpu() {
 		return cpu;
 	}
 
-	public String getMemory() {
+	public int getMemory() {
 		return memory;
 	}
 
-	public String getStorage() {
+	public int getStorage() {
 		return storage;
 	}
 
@@ -157,17 +157,17 @@ public class Instance implements Serializable {
 	}
 
 	@XmlElement(name = "cpu")
-	public void setCpu(String cpu) {
+	public void setCpu(int cpu) {
 		this.cpu = cpu;
 	}
 
 	@XmlElement(name = "memory")
-	public void setMemory(String memory) {
+	public void setMemory(int memory) {
 		this.memory = memory;
 	}
 
 	@XmlElement(name = "storage")
-	public void setStorage(String storage) {
+	public void setStorage(int storage) {
 		this.storage = storage;
 	}
 

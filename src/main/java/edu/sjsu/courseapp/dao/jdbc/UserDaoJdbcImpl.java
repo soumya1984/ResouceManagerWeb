@@ -135,7 +135,9 @@ public class UserDaoJdbcImpl implements UserDAO {
 	public double getTotalBillOfAllUsers() {
 		// TODO Auto-generated method stub
 		String sql = "select sum(totalbill) from user";
-		return Double.parseDouble(new DecimalFormat("#.##").format(jdbcTemplate.queryForObject(sql, Double.class)));
+		Double totalbill = jdbcTemplate.queryForObject(sql, Double.class);
+		if(totalbill==null) totalbill = 0.0;
+		return Double.parseDouble(new DecimalFormat("#.##").format(totalbill.doubleValue()));
 	}
 
 }

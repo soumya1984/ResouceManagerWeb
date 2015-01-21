@@ -71,6 +71,13 @@ public class CloudDaoJdbcImpl implements CloudDAO {
 		String sql = "select name from cloud where cloudid=?";
 		return jdbcTemplate.queryForObject(sql, String.class, id);
 	}
+	
+	@Override
+	public String getGeolocationById(int id) {
+		String sql = "select geolocation from cloud where cloudid=?";
+		return jdbcTemplate.queryForObject(sql, String.class, id);
+	}
+
 
 	@Override
 	public Cloud findCloudByName(String cloudName) {

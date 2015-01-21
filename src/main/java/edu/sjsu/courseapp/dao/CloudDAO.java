@@ -15,6 +15,8 @@ public interface CloudDAO {
 	public String findCloudNameById(int id);
 
 	public Cloud findCloudByName(String cloudName);
+	
+	public String getGeolocationById(int id);
 
 	public void insertCloud(List<Cloud> cloud);
 	

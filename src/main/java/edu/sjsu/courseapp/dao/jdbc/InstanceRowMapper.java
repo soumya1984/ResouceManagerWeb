@@ -25,9 +25,9 @@ public Instance mapRow(ResultSet rs, int rowNum) throws SQLException {
 	String status;
 	String type;
 	String os;
-	String cpu;
-	String memory;
-	String storage;
+	int cpu;
+	int memory;
+	int storage;
 	String publicip;
 	String privateip;
 	Time uptime;
@@ -40,9 +40,9 @@ public Instance mapRow(ResultSet rs, int rowNum) throws SQLException {
 	status = rs.getString("status");
 	type = rs.getString("type");
 	os = rs.getString("os");
-	cpu = rs.getString("cpu");
-	memory = rs.getString("memory");
-	storage = rs.getString("storage");
+	cpu = rs.getInt("cpu");
+	memory = rs.getInt("memory");
+	storage = rs.getInt("storage");
 	publicip = rs.getString("publicip");
 	privateip = rs.getString("privateip");
 	uptime = rs.getTime("uptime");
