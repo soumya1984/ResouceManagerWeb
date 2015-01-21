@@ -1,7 +1,5 @@
 package edu.sjsu.courseapp.domain;
 
-
-
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -10,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * @author Sudip
+ * @author Sudip githubid:sudipk
  * 
  */
 @XmlRootElement(name = "cloud")
@@ -20,7 +18,7 @@ public class Cloud implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3723910394542506470L;
+	private static final long serialVersionUID = -3723910394542506474L;
 	private int cloudid;
 	private String name;
 	private String publicip;

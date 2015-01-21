@@ -3,7 +3,11 @@ package edu.sjsu.courseapp.dao;
 import java.util.List;
 
 import edu.sjsu.courseapp.domain.Cloud;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 public interface CloudDAO {
 
 	public int getCloudCount();

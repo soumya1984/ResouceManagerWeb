@@ -1,7 +1,7 @@
 package edu.sjsu.courseapp.dao.jdbc;
 /**
  * 
- * @author Sudip
+ * @author Sudip githubid:sudipk
  * 
  */
 import java.util.ArrayList;

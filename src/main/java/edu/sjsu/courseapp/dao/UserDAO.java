@@ -1,15 +1,14 @@
 package edu.sjsu.courseapp.dao;
 
-/**
- * 
- * @author Sudip
- * 
- */
-
 import java.util.List;
 
 import edu.sjsu.courseapp.domain.User;
 
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 public interface UserDAO {
 
 	public int getUserCount();

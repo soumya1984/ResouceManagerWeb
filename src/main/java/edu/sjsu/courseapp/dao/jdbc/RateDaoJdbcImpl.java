@@ -19,7 +19,11 @@ import org.springframework.stereotype.Repository;
 
 import edu.sjsu.courseapp.dao.RateDAO;
 import edu.sjsu.courseapp.domain.Rate;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 @Repository("RateDaoJdbcImpl")
 public class RateDaoJdbcImpl implements RateDAO {
 	@Autowired

@@ -1,9 +1,4 @@
 package edu.sjsu.courseapp.dao.jdbc;
-/**
- * 
- * @author Sudip
- * 
- */
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +7,11 @@ import java.sql.Time;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.sjsu.courseapp.domain.Instance;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 public class InstanceRowMapper implements RowMapper<Instance>{{
 
 }

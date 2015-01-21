@@ -19,7 +19,11 @@ import org.springframework.stereotype.Repository;
 
 import edu.sjsu.courseapp.dao.CloudDAO;
 import edu.sjsu.courseapp.domain.Cloud;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 @Repository("CloudDaoJdbcImpl")
 public class CloudDaoJdbcImpl implements CloudDAO {
 	@Autowired

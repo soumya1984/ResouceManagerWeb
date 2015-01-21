@@ -1,15 +1,13 @@
 package edu.sjsu.courseapp.dao;
 
-/**
- * 
- * @author Sudip
- * 
- */
-
 import java.util.List;
-import java.util.Map;
 
 import edu.sjsu.courseapp.domain.Instance;
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 
 public interface InstanceDAO {
 

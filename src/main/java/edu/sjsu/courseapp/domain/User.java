@@ -1,7 +1,5 @@
 package edu.sjsu.courseapp.domain;
 
-
-
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
@@ -11,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * @author Sudip
+ * @author Sudip githubid:sudipk
  * 
  */
 @XmlRootElement(name = "user")
@@ -21,7 +19,7 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3723910394542506470L;
+	private static final long serialVersionUID = -3723910394542506471L;
 	private int userid;
 	private String name;
 	private String creditcard;

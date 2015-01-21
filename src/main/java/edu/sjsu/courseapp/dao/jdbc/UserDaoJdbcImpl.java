@@ -22,7 +22,11 @@ import org.springframework.stereotype.Repository;
 import edu.sjsu.courseapp.dao.UserDAO;
 import edu.sjsu.courseapp.domain.Instance;
 import edu.sjsu.courseapp.domain.User;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 @Repository("UserDaoJdbcImpl")
 public class UserDaoJdbcImpl implements UserDAO {
 	@Autowired

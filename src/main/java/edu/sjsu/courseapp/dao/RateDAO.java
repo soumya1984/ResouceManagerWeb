@@ -3,7 +3,11 @@ package edu.sjsu.courseapp.dao;
 import java.util.List;
 
 import edu.sjsu.courseapp.domain.Rate;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 public interface RateDAO {
 
 	public int getRateCount();

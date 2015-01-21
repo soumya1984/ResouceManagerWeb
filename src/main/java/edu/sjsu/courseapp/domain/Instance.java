@@ -1,7 +1,5 @@
 package edu.sjsu.courseapp.domain;
 
-
-
 import java.io.Serializable;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -12,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * @author Sudip
+ * @author Sudip githubid:sudipk
  * 
  */
 @XmlRootElement(name = "instance")
@@ -23,7 +21,7 @@ public class Instance implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3723910394542506470L;
+	private static final long serialVersionUID = -3723910394542506473L;
 	private int instanceid;
 	private int cloudid;
 	private String name;

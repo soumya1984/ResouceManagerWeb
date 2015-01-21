@@ -6,7 +6,11 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import edu.sjsu.courseapp.domain.User;
-
+/**
+ * 
+ * @author Sudip githubid:sudipk
+ * 
+ */
 public class UserRowMapper implements RowMapper<User>{{
 
 }
