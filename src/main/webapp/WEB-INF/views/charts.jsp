@@ -1,7 +1,7 @@
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="edu.sjsu.courseapp.domain.Instance"%>
+<%@page import="edu.sjsu.courseapp.domain.User"%>
 <%@page import="com.amazonaws.services.ec2.model.InstanceCount"%>
 <%@page import="edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl"%>
 <%@page import="edu.sjsu.courseapp.dao.jdbc.CloudDaoJdbcImpl"%>
@@ -27,7 +27,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin - Bootstrap Admin Template</title>
+<title>Usage Bill of Users</title>
 
 <!-- Bootstrap Core CSS -->
 <!-- Bootstrap CSS -->
@@ -85,16 +85,16 @@
 	<%
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"root-context.xml");
-		InstanceDaoJdbcImpl instance = (InstanceDaoJdbcImpl) context
-				.getBean("instanceServ");
+		UserDaoJdbcImpl users = (UserDaoJdbcImpl) context
+				.getBean("userServ");
 		
-		Map<Integer, Double> userBilling=instance.getBillPerUser();
+		List<User> userList = users.getUserallList();
 		String result ="[";
-		for(Map.Entry data:userBilling.entrySet()){
-	       result=result+"{"+"y:"+data.getKey().toString()+", ";
-	       result=result+"a:"+data.getValue().toString()+"},";
+		for(User user:userList){
+	       result=result+"{"+"y:'"+user.getName()+"', ";
+	       result=result+"Bill:"+user.getTotalbill()+"},";
 		}
-		result=result+"{}]";
+		result=result+"]";
 	%>
 	<c:set var="data" scope="request"
 	value="<%=result%>" />
@@ -125,7 +125,23 @@
 								</span>
 								<div class="media-body">
 									<h5 class="media-heading">
-										<strong>John Smith</strong>
+										<strong>Administrator</strong>
+									</h5>
+									<p class="small text-muted">
+										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
+									</p>
+									<p>Instance c1mi1i1 is up...</p>
+								</div>
+							</div>
+					</a></li>
+					<li class="message-preview"><a href="#">
+							<div class="media">
+								<span class="pull-left"> <img class="media-object"
+									src="http://placehold.it/50x50" alt="">
+								</span>
+								<div class="media-body">
+									<h5 class="media-heading">
+										<strong>Administrator</strong>
 									</h5>
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
@@ -141,23 +157,7 @@
 								</span>
 								<div class="media-body">
 									<h5 class="media-heading">
-										<strong>John Smith</strong>
-									</h5>
-									<p class="small text-muted">
-										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
-									</p>
-									<p>Lorem ipsum dolor sit amet, consectetur...</p>
-								</div>
-							</div>
-					</a></li>
-					<li class="message-preview"><a href="#">
-							<div class="media">
-								<span class="pull-left"> <img class="media-object"
-									src="http://placehold.it/50x50" alt="">
-								</span>
-								<div class="media-body">
-									<h5 class="media-heading">
-										<strong>John Smith</strong>
+										<strong>Administrator</strong>
 									</h5>
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
@@ -189,7 +189,7 @@
 					<li><a href="#">View All</a></li>
 				</ul></li>
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b
+				data-toggle="dropdown"><i class="fa fa-user"></i> Administrator <b
 					class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<li><a href="#"><i class="fa fa-fw fa-user"></i> Profile</a></li>
@@ -236,7 +236,7 @@
 
 			<div class="container-fluid">
 
-				Page Heading
+				<font size="8">Usage Bill of Users</font>
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">Charts</h1>
@@ -254,8 +254,8 @@
 						element : 'bar-example',
 						data : <%=result%>,
 						xkey : 'y',
-						ykeys : [ 'a'],
-						labels : [ 'Series A', 'Series B' ]
+						ykeys : [ 'Bill'],
+						labels : [ 'Bill' ]
 					});
 				</script>
 				<!-- /#page-wrapper -->
