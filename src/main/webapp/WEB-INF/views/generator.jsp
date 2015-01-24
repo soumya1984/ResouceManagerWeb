@@ -82,7 +82,7 @@ $(document).ready(function(){
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin</a>
+                <a class="navbar-brand" href="${context}/index">Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -96,10 +96,10 @@ $(document).ready(function(){
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading"><strong>Admin</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Launched Instance...</p>
                                     </div>
                                 </div>
                             </a>
@@ -111,10 +111,10 @@ $(document).ready(function(){
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading"><strong>Admin</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Cloud Watch Reported statistics...</p>
                                     </div>
                                 </div>
                             </a>
@@ -126,10 +126,10 @@ $(document).ready(function(){
                                         <img class="media-object" src="http://placehold.it/50x50" alt="">
                                     </span>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        <h5 class="media-heading"><strong>Admin</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Billing is updated...</p>
                                     </div>
                                 </div>
                             </a>
@@ -167,7 +167,7 @@ $(document).ready(function(){
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -189,7 +189,7 @@ $(document).ready(function(){
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="${context}/index"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                 </ul>
             </div>
@@ -208,7 +208,7 @@ $(document).ready(function(){
                         </h1>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="${context}/index">Dashboard</a>
                             </li>
                             <li class="active">
                                 <i class="fa fa-edit"></i> Dynamic Request Generator... 
@@ -228,6 +228,24 @@ $(document).ready(function(){
                                 <input class="form-control" name="email" type="email" value="" id="email">
                                 <p class="help-block">Example block-level help text here.</p>
                             </div>
+                                                	<div class="form-group">
+						<label for="User" class="control-label"> User: </label>        
+						<div class="form-group">
+							<select class="form-control" name="userid" id="userid">
+								<option value=""></option>
+								<option value="1">Sudip Aikat</option>
+								<option value="2">Kumar</option>
+								<option value="3">John</option>
+								<option value="4">Emily</option>
+								<option value="5">Philip</option>
+								<option value="6">Sandra</option>
+								<option value="7">Priya</option>
+								<option value="8">Tom</option>
+								<option value="9">Harry</option>
+								<option value="10">Arnold</option>
+							</select>
+						</div>
+						</div>	
                     	<div class="form-group">
 						<label for="memory" class="control-label"> Memory: </label>        
 					<div class="form-group">
@@ -260,6 +278,7 @@ $(document).ready(function(){
 					<div class="form-group">
 							<select class="form-control" name="storage" id="storage">
 								<option value=""></option>
+								<option value="8">8</option>
 								<option value="16">16</option>
 								<option value="32">32</option>
 								<option value="64">64</option>
@@ -282,9 +301,9 @@ $(document).ready(function(){
 						<label for="country" class="control-label"> Country </label>
 						<div class="controls">
 							<select name="country" id="country" class="form-control">
-								<option value=""></option>
+								<option value="USA">USA</option>
 								<option value="AR">Argentina</option>
-								<option value="AU">Australia</option>
+								<option value="AUS">Australia</option>
 								<option value="AT">Austria</option>
 								<option value="BY">Belarus</option>
 								<option value="BE">Belgium</option>
@@ -293,7 +312,7 @@ $(document).ready(function(){
 								<option value="BG">Bulgaria</option>
 								<option value="CA">Canada</option>
 								<option value="CL">Chile</option>
-								<option value="CN">China</option>
+								<option value="CHINA">China</option>
 								<option value="CO">Colombia</option>
 								<option value="CR">Costa Rica</option>
 								<option value="HR">Croatia</option>
@@ -313,7 +332,7 @@ $(document).ready(function(){
 								<option value="HK">Hong Kong S.A.R., China</option>
 								<option value="HU">Hungary</option>
 								<option value="IS">Iceland</option>
-								<option value="IN">India</option>
+								<option value="INDIA">India</option>
 								<option value="ID">Indonesia</option>
 								<option value="IR">Iran</option>
 								<option value="IQ">Iraq</option>
@@ -321,7 +340,7 @@ $(document).ready(function(){
 								<option value="IL">Israel</option>
 								<option value="IT">Italy</option>
 								<option value="JM">Jamaica</option>
-								<option value="JP">Japan</option>
+								<option value="JAPAN">Japan</option>
 								<option value="KZ">Kazakhstan</option>
 								<option value="KW">Kuwait</option>
 								<option value="KG">Kyrgyzstan</option>
@@ -370,8 +389,7 @@ $(document).ready(function(){
 								<option value="TR">Turkey</option>
 								<option value="UA">Ukraine</option>
 								<option value="AE">United Arab Emirates</option>
-								<option value="GB">United Kingdom</option>
-								<option value="US">USA</option>
+								<option value="UK">United Kingdom</option>
 								<option value="UZ">Uzbekistan</option>
 								<option value="VN">Vietnam</option>
 							</select>
@@ -382,7 +400,7 @@ $(document).ready(function(){
 							<div class="controls">
 								<select name="osType" id="osType" class="form-control">
 									<option value=""></option>
-									<option value="compute">Compute</option>
+									<option value="Computer">Computer</option>
 									<option value="Mobile">Mobile</option>
 								</select>
 							</div>
@@ -392,7 +410,7 @@ $(document).ready(function(){
 							<div class="controls">
 								<select name="os" id="os" class="form-control">
 									<option value=""></option>
-									<option value="ios">IOS</option>
+									<option value="ios">iOS</option>
 									<option value="android">Android</option>
 									<option value="linux">Linux</option>
 									<option value="windows">Windows</option>

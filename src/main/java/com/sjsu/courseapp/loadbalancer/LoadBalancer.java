@@ -1,6 +1,7 @@
 package com.sjsu.courseapp.loadbalancer;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.joda.time.DateTime;
 
@@ -17,16 +18,14 @@ public class LoadBalancer {
 		System.out
 				.println("#####################################################################################################");
 		// request parameter received from the request.
-		int requestId = request.getRequestId();
-		int requestCpu = request.getCpu_units();
-		int requestMemory = request.getMemory();
-		int requestStorage = request.getStorage();
 		System.out
 				.println("**********************************************************");
-		System.out.println("Request ID: " + requestId);
-		System.out.println("Request CPU units: " + requestCpu);
-		System.out.println("Request Memory units: " + requestMemory);
-		System.out.println("Request Storage units: " + requestStorage);
+		System.out.println("Request ID: " + request.getRequestId());
+		System.out.println("Request CPU units: " + request.getCpu_units());
+		System.out.println("Request Memory units: " + request.getMemory());
+		System.out.println("Request OS: " + request.getOs());
+		System.out.println("Request Type: " + request.getType());
+		System.out.println("Request Geolocation: " + request.getGeolocation());
 		System.out.println("Request Is Allocated? " + request.isAllocated());
 		System.out
 				.println("**********************************************************");
@@ -36,30 +35,33 @@ public class LoadBalancer {
 		resourceList = backendStorage.getResourcesFromHashMap();
 		while ((request.isAllocated() == false)) {
 			// loop through the all request and assign the proper one
-			//Iterator<Resources> it = resourceList.iterator();
-			for(int i=0;i<resourceList.size();i++) {
+			// Iterator<Resources> it = resourceList.iterator();
+			for (int i = 0; i < resourceList.size(); i++) {
 				int resourceCpu = resourceList.get(i).getCpu_units();
 				int resourceMemory = resourceList.get(i).getMemory();
 				int resourceStorage = resourceList.get(i).getStorage();
 				if (resourceList.get(i).isFullAllocation() == false) {
-					if (Math.abs(resourceCpu) - Math.abs(requestCpu) > 0
-							|| Math.abs(resourceCpu) - Math.abs(requestCpu) == 0) {
+					if (Math.abs(resourceCpu)
+							- Math.abs(request.getCpu_units()) > 0
+							|| Math.abs(resourceCpu)
+									- Math.abs(request.getCpu_units()) == 0) {
 
-						if (Math.abs(resourceMemory) - Math.abs(requestMemory) > 0
+						if (Math.abs(resourceMemory)
+								- Math.abs(request.getMemory()) > 0
 								|| Math.abs(resourceMemory)
-										- Math.abs(requestMemory) == 0) {
+										- Math.abs(request.getMemory()) == 0) {
 
 							if (Math.abs(resourceStorage)
-									- Math.abs(requestStorage) > 0
+									- Math.abs(request.getStorage()) > 0
 									|| Math.abs(resourceStorage)
-											- Math.abs(requestStorage) == 0) {
+											- Math.abs(request.getStorage()) == 0) {
 
 								resourceCpu = Math.abs(resourceCpu)
-										- Math.abs(requestCpu);
+										- Math.abs(request.getCpu_units());
 								resourceMemory = (Math.abs(resourceMemory))
-										- Math.abs(requestMemory);
+										- Math.abs(request.getMemory());
 								resourceStorage = Math.abs(resourceStorage)
-										- Math.abs(requestStorage);
+										- Math.abs(request.getStorage());
 								// Update the resource List
 								resourceList.get(i).setCpu_units(resourceCpu);
 								resourceList.get(i).setMemory(resourceMemory);
@@ -83,7 +85,7 @@ public class LoadBalancer {
 					}
 
 				}
-				//break;
+				// break;
 			}
 		}
 		processRequest = processRequest + 1;
@@ -117,11 +119,11 @@ public class LoadBalancer {
 
 		int resourceCpu, resourceMemory, resourceStorage;
 		// request parameter received from the request.
-		int requestId = request.getRequestId();
-		int requestCpu = request.getCpu_units();
-		int requestMemory = request.getMemory();
-		int requestStorage = request.getStorage();
-		
+		// int requestId = request.getRequestId();
+		// int requestCpu = request.getCpu_units();
+		// int requestMemory = request.getMemory();
+		// int requestStorage = request.getStorage();
+
 		ArrayList<Resources> resourceList = new ArrayList<Resources>(
 				backendStorage.getResourcesFromHashMap());
 		ArrayList<String> resourceNames = new ArrayList<String>();
@@ -134,12 +136,13 @@ public class LoadBalancer {
 				resourceMemory = resource.getMemory();
 				resourceStorage = resource.getStorage();
 
-				if (resourceCpu > requestCpu && resourceMemory > requestMemory
-						&& resourceStorage > requestStorage) {
+				if (resourceCpu > request.getCpu_units()
+						&& resourceMemory > request.getMemory()
+						&& resourceStorage > request.getStorage()) {
 					// Update the resource List
-					resource.setCpu_units(resourceCpu - requestCpu);
-					resource.setMemory(resourceMemory - requestMemory);
-					resource.setStorage(resourceStorage - requestMemory);
+					resource.setCpu_units(resourceCpu - request.getCpu_units());
+					resource.setMemory(resourceMemory - request.getMemory());
+					resource.setStorage(resourceStorage - request.getMemory());
 
 					resource.setFullAllocation(true);
 
@@ -153,7 +156,8 @@ public class LoadBalancer {
 		if (request.isAllocated() == true) {
 			System.out
 					.println("******************************************************************");
-			System.out.println("Request ID: " + requestId + " is Allocated");
+			System.out.println("Request ID: " + request.getRequestId()
+					+ " is Allocated");
 			System.out
 					.println("******************************************************************");
 		} else {
@@ -166,7 +170,7 @@ public class LoadBalancer {
 						.println("******************************************************************");
 			}
 		}
-		
+
 		resourceNames = backendStorage.updateResourcesInHashMap(resourceList);
 		processRequest = processRequest + 1;
 		// check how long it took to process all the request
@@ -179,454 +183,147 @@ public class LoadBalancer {
 				+ resourceNames;
 
 	}
-	
+
 	// Resource Allocation is done by Geo Location Algorithm
-		public String processGeoLocationRequest(ResourceRequest request) {
-			//RequestResourceStorage requestResourceStorage = new RequestResourceStorage();
-			long startTime = System.currentTimeMillis();
-			System.out
-			.println("startTime");
-			BackendStorage  resourceStorage = new BackendStorage();
-			ArrayList<Resources> resourceList = new ArrayList<Resources>(
-					resourceStorage.getResourcesFromHashMap());
-			ArrayList<String> resourceNames = new ArrayList<String>();
+	public String processGeoLocationRequest(ResourceRequest request) {
+		long startTime = System.currentTimeMillis();
+		System.out.println("startTime");
+		BackendStorage resourceStorage = new BackendStorage();
+		// ArrayList<Resources> resourceList = new ArrayList<Resources>(
+		// resourceStorage.getResourcesFromHashMap());
+		// ArrayList<String> resourceNames = new ArrayList<String>();
+		// resourceList = resourceStorage.getResourcesFromHashMap();
 
-			resourceList = resourceStorage.getResourcesFromHashMap();
-			//requestList = requestResourceStorage.getResourcesFromHashMap();
-
-		/*	for (int j = 0; j < resourceList.size(); j++) {
-				String requestName = resourceList.get(j).getResourceName();
-				int cpu = resourceList.get(j).getCpu_units();
-				int memory = resourceList.get(j).getMemory();
-				int storage = resourceList.get(j).getStorage();
-				/////////////////////////////////////////////////////////////////////////////////
-				System.out
-						.println("**********************************************************");
-				System.out.println("### Resources Before Allocation ###");
-				System.out.println("Resource Name: " + requestName);
-				System.out.println("Resource CPU units: " + cpu);
-				System.out.println("Resource Memory units: " + memory);
-				System.out.println("Resource Storage units: " + storage);
-				System.out.println("Full Allocation Flag: "
-						+ resourceList.get(j).isFullAllocation());
-				System.out.println("Partial Allocation Flag: "
-						+ resourceList.get(j).isPartialAllocation());
-				System.out
-						.println("**********************************************************");
-			}*/
-			/////////////////////////////////////////////////////////////////////////////////////
-			System.out
-			.println("Single Request");
-			System.out
-					.println("#####################################################################################################");
-				int requestID = request.getRequestId();
-				int cpu = request.getCpu_units();
-				int memory = request.getMemory();
-				int storage = request.getStorage();
-				System.out
-						.println("**********************************************************");
-				System.out.println("Request ID: " + requestID);
-				System.out.println("Request CPU units: " + cpu);
-				System.out.println("Request Memory units: " + memory);
-				System.out.println("Request Storage units: " + storage);
-				System.out.println("Request Is Allocated? "
-						+ request.isAllocated());
-				System.out
-						.println("**********************************************************");
-
-
-		//	int count = 0;
-			//for (int i = 0; i < count; i++) {
-				int Request_CPU_units = request.getCpu_units();
-				int Request_Memory = request.getMemory();
-				int Request_Storage = request.getStorage();
-				int requestServed = 0;
-
-				while ((request.isAllocated() == false)
-						&& requestServed == 0) {
-					for (int j = 0; j < resourceList.size(); j++) {
-						int Resource_CPU_units = resourceList.get(j).getCpu_units();
-						int Resoure_Memory = resourceList.get(j).getMemory();
-						int Resource_Storage = resourceList.get(j).getStorage();
-						int Resource_Location = resourceList.get(j).getLocationId();
-
-						if ((resourceList.get(j).isFullAllocation() == false)
-								&& (request.getLocationId() == Resource_Location)) {
-							if ((Math.abs(Resource_CPU_units) - Math
-									.abs(Request_CPU_units)) > 0) {
-								if (((Math.abs(Resoure_Memory)) - Math
-										.abs(Request_Memory)) > 0) {
-
-									if ((Math.abs(Resource_Storage) - Math
-											.abs(Request_Storage)) > 0) {
-										Resource_CPU_units = Math
-												.abs(Resource_CPU_units)
-												- Math.abs(Request_CPU_units);
-										Resoure_Memory = (Math.abs(Resoure_Memory))
-												- Math.abs(Request_Memory);
-										Resource_Storage = Math
-												.abs(Resource_Storage)
-												- Math.abs(Request_Storage);
-
-										// Update the resource List
-										resourceList.get(j).setCpu_units(
-												Resource_CPU_units);
-										resourceList.get(j).setMemory(
-												Resoure_Memory);
-										resourceList.get(j).setStorage(
-												Resource_Storage);
-
-										resourceList.get(j)
-												.setFullAllocation(false);
-										resourceList.get(j).setPartialAllocation(
-												true);
-
-										// Set the request allocated to true
-										request.setAllocated(true);
-
-									} else {
-										if ((Math.abs(Resource_Storage) - Math
-												.abs(Request_Storage)) == 0) {
-											Resource_CPU_units = Math
-													.abs(Resource_CPU_units)
-													- Math.abs(Request_CPU_units);
-											Resoure_Memory = (Math
-													.abs(Resoure_Memory))
-													- Math.abs(Request_Memory);
-											Resource_Storage = Math
-													.abs(Resource_Storage)
-													- Math.abs(Request_Storage);
-
-											// Update the resource List
-											resourceList.get(j).setCpu_units(
-													Resource_CPU_units);
-											resourceList.get(j).setMemory(
-													Resoure_Memory);
-											resourceList.get(j).setStorage(
-													Resource_Storage);
-
-											resourceList.get(j).setFullAllocation(
-													true);
-											resourceList.get(j)
-													.setPartialAllocation(false);
-
-											// Set the request allocated to true
-											request.setAllocated(true);
-										}
-
-									}
-									if ((Math.abs(Resource_Storage) - Math
-											.abs(Request_Storage)) < 0) {
-										System.out
-												.println("Due to Insufficient Storage, Request cannot be processed inspite of having memory & Cpu");
-										continue;
-									}
-
-								} else {
-									if (((Math.abs(Resoure_Memory)) - Math
-											.abs(Request_Memory)) == 0) {
-
-										if ((Math.abs(Resource_Storage) - Math
-												.abs(Request_Storage)) > 0) {
-											Resource_CPU_units = Math
-													.abs(Resource_CPU_units)
-													- Math.abs(Request_CPU_units);
-											Resoure_Memory = (Math
-													.abs(Resoure_Memory))
-													- Math.abs(Request_Memory);
-											Resource_Storage = Math
-													.abs(Resource_Storage)
-													- Math.abs(Request_Storage);
-
-											// Update the resource List
-											resourceList.get(j).setCpu_units(
-													Resource_CPU_units);
-											resourceList.get(j).setMemory(
-													Resoure_Memory);
-											resourceList.get(j).setStorage(
-													Resource_Storage);
-
-											resourceList.get(j).setFullAllocation(
-													true);
-											resourceList.get(j)
-													.setPartialAllocation(false);
-
-											// Set the request allocated to true
-											request.setAllocated(true);
-
-										} else {
-											if ((Math.abs(Resource_Storage) - Math
-													.abs(Request_Storage)) == 0) {
-												Resource_CPU_units = Math
-														.abs(Resource_CPU_units)
-														- Math.abs(Request_CPU_units);
-												Resoure_Memory = (Math
-														.abs(Resoure_Memory))
-														- Math.abs(Request_Memory);
-												Resource_Storage = Math
-														.abs(Resource_Storage)
-														- Math.abs(Request_Storage);
-
-												// Update the resource List
-												resourceList.get(j).setCpu_units(
-														Resource_CPU_units);
-												resourceList.get(j).setMemory(
-														Resoure_Memory);
-												resourceList.get(j).setStorage(
-														Resource_Storage);
-
-												resourceList.get(j)
-														.setFullAllocation(true);
-												resourceList
-														.get(j)
-														.setPartialAllocation(false);
-
-												// Set the request allocated to true
-												request.setAllocated(
-														true);
-											}
-
-										}
-										if ((Math.abs(Resource_Storage) - Math
-												.abs(Request_Storage)) < 0) {
-											System.out
-													.println("Due to Insufficient Storage, Request cannot be processed inspite of having memory & Cpu");
-											continue;
-										}
-										if (((Math.abs(Resoure_Memory)) - Math
-												.abs(Request_Memory)) < 0) {
-											System.out
-													.println("Due to Insufficient Memory, Request cannot be processed inspite of having Cpu");
-											continue;
-
-										}
-
-									}
-
+		// ConcurrentHashMap<String, ArrayList<Resources>> geoMap =
+		// resourceStorage.getGeoLocationHashMap();
+		Resources allocatedResource = null;
+		if (resourceStorage.getGeoLocationHashMap().containsKey(
+				request.getGeolocation())) {
+			// ArrayList<Resources> arrList =
+			// (ArrayList<Resources>)resourceStorage.getGeoLocationHashMap().get(request.getGeolocation());
+			// while (request.isAllocated() == false) {
+			for (int j = 0; j < resourceStorage.getGeoLocationHashMap()
+					.get(request.getGeolocation()).size(); j++) {
+				int Resource_CPU_units = resourceStorage
+						.getGeoLocationHashMap().get(request.getGeolocation())
+						.get(j).getCpu_units();
+				int Resoure_Memory = resourceStorage.getGeoLocationHashMap()
+						.get(request.getGeolocation()).get(j).getMemory();
+				int Resource_Storage = resourceStorage.getGeoLocationHashMap()
+						.get(request.getGeolocation()).get(j).getStorage();
+				String OS = resourceStorage.getGeoLocationHashMap()
+						.get(request.getGeolocation()).get(j).getOs();
+				String Type = resourceStorage.getGeoLocationHashMap()
+						.get(request.getGeolocation()).get(j).getType();
+				String Resource_GeoLocation = resourceStorage
+						.getGeoLocationHashMap().get(request.getGeolocation())
+						.get(j).getGeolocation();
+				if (OS.equalsIgnoreCase(request.getOs())
+						&& Type.equalsIgnoreCase(request.getType())) {
+					if ((resourceStorage.getGeoLocationHashMap()
+							.get(request.getGeolocation()).get(j)
+							.isFullAllocation() == false)
+							&& (request.getGeolocation()
+									.equalsIgnoreCase(Resource_GeoLocation))) {
+						if ((Math.abs(Resource_CPU_units) - Math.abs(request
+								.getCpu_units())) >= 0) {
+							if (((Math.abs(Resoure_Memory)) - Math.abs(request
+									.getMemory())) >= 0) {
+								if ((Math.abs(Resource_Storage) - Math
+										.abs(request.getStorage())) >= 0) {
+									resourceStorage.getGeoLocationHashMap()
+											.get(request.getGeolocation())
+											.get(j).setFullAllocation(true);
+									resourceStorage.getGeoLocationHashMap()
+									.get(request.getGeolocation())
+									.get(j).setUserId(request.getUserId());
+									request.setAllocated(true);
+									allocatedResource = resourceStorage.getGeoLocationHashMap()
+											.get(request.getGeolocation()).get(j);
+									allocatedResource.setUserId(request.getUserId());
+									resourceStorage.updateDatabase(allocatedResource);
+									break;
 								}
-							} else {
-								if ((Math.abs(Resource_CPU_units) - Math
-										.abs(Request_CPU_units)) == 0) {
-									if (((Math.abs(Resoure_Memory)) - Math
-											.abs(Request_Memory)) > 0) {
-
-										if ((Math.abs(Resource_Storage) - Math
-												.abs(Request_Storage)) > 0) {
-											Resource_CPU_units = Math
-													.abs(Resource_CPU_units)
-													- Math.abs(Request_CPU_units);
-											Resoure_Memory = (Math
-													.abs(Resoure_Memory))
-													- Math.abs(Request_Memory);
-											Resource_Storage = Math
-													.abs(Resource_Storage)
-													- Math.abs(Request_Storage);
-
-											// Update the resource List
-											resourceList.get(j).setCpu_units(
-													Resource_CPU_units);
-											resourceList.get(j).setMemory(
-													Resoure_Memory);
-											resourceList.get(j).setStorage(
-													Resource_Storage);
-
-											resourceList.get(j).setFullAllocation(
-													true);
-											resourceList.get(j)
-													.setPartialAllocation(false);
-
-											// Set the request allocated to true
-											request.setAllocated(true);
-
-										} else {
-											if ((Math.abs(Resource_Storage) - Math
-													.abs(Request_Storage)) == 0) {
-												Resource_CPU_units = Math
-														.abs(Resource_CPU_units)
-														- Math.abs(Request_CPU_units);
-												Resoure_Memory = (Math
-														.abs(Resoure_Memory))
-														- Math.abs(Request_Memory);
-												Resource_Storage = Math
-														.abs(Resource_Storage)
-														- Math.abs(Request_Storage);
-
-												// Update the resource List
-												resourceList.get(j).setCpu_units(
-														Resource_CPU_units);
-												resourceList.get(j).setMemory(
-														Resoure_Memory);
-												resourceList.get(j).setStorage(
-														Resource_Storage);
-
-												resourceList.get(j)
-														.setFullAllocation(true);
-												resourceList
-														.get(j)
-														.setPartialAllocation(false);
-
-												// Set the request allocated to true
-												request.setAllocated(
-														true);
-											}
-
-										}
-										if ((Math.abs(Resource_Storage) - Math
-												.abs(Request_Storage)) < 0) {
-											System.out
-													.println("Due to Insufficient Storage, Request cannot be processed inspite of having memory & Cpu");
-											continue;
-										}
-
-									} else {
-										if (((Math.abs(Resoure_Memory)) - Math
-												.abs(Request_Memory)) == 0) {
-
-											if ((Math.abs(Resource_Storage) - Math
-													.abs(Request_Storage)) > 0) {
-												Resource_CPU_units = Math
-														.abs(Resource_CPU_units)
-														- Math.abs(Request_CPU_units);
-												Resoure_Memory = (Math
-														.abs(Resoure_Memory))
-														- Math.abs(Request_Memory);
-												Resource_Storage = Math
-														.abs(Resource_Storage)
-														- Math.abs(Request_Storage);
-
-												// Update the resource List
-												resourceList.get(j).setCpu_units(
-														Resource_CPU_units);
-												resourceList.get(j).setMemory(
-														Resoure_Memory);
-												resourceList.get(j).setStorage(
-														Resource_Storage);
-
-												resourceList.get(j)
-														.setFullAllocation(true);
-												resourceList
-														.get(j)
-														.setPartialAllocation(false);
-
-												// Set the request allocated to true
-												request.setAllocated(
-														true);
-
-											} else {
-												if ((Math.abs(Resource_Storage) - Math
-														.abs(Request_Storage)) == 0) {
-													Resource_CPU_units = Math
-															.abs(Resource_CPU_units)
-															- Math.abs(Request_CPU_units);
-													Resoure_Memory = (Math
-															.abs(Resoure_Memory))
-															- Math.abs(Request_Memory);
-													Resource_Storage = Math
-															.abs(Resource_Storage)
-															- Math.abs(Request_Storage);
-
-													// Update the resource List
-													resourceList
-															.get(j)
-															.setCpu_units(
-																	Resource_CPU_units);
-													resourceList.get(j).setMemory(
-															Resoure_Memory);
-													resourceList.get(j).setStorage(
-															Resource_Storage);
-
-													resourceList
-															.get(j)
-															.setFullAllocation(true);
-													resourceList.get(j)
-															.setPartialAllocation(
-																	false);
-
-													// Set the request allocated to
-													// true
-													request.setAllocated(true);
-												}
-
-											}
-											if ((Math.abs(Resource_Storage) - Math
-													.abs(Request_Storage)) < 0) {
-												System.out
-														.println("Due to Insufficient Storage, Request cannot be processed inspite of having memory & Cpu");
-												continue;
-											}
-
-										}
-										if (((Math.abs(Resoure_Memory)) - Math
-												.abs(Request_Memory)) < 0) {
-											System.out
-													.println("Due to Insufficient Memory, Request cannot be processed inspite of having Cpu");
-											continue;
-
-										}
-									}
-								}
-							}
-
-							if ((Math.abs(Resource_CPU_units) - Math
-									.abs(Request_CPU_units)) < 0) {
 								System.out
-										.println("Due to Insufficient CPU, Request cannot be processed.");
-								continue;
+										.println("Storage is not sufficient so the request cannot be processed inspite of having cpu & memory");
 							}
-
-						} else {
-							System.out
-									.println("Resource Not available in the Location");
 						}
-					}
-					if (request.isAllocated() == true) {
-						System.out
-								.println("------------------------------------------------------------");
-						System.out.println("Request ID: "
-								+ request.getRequestId()
-								+ " is Allocated");
-						System.out
-								.println("------------------------------------------------------------");
+
 					} else {
 						System.out
-								.println("****************************************************************");
-						System.out.println("Request ID: "
-								+ request.getRequestId()
-								+ " is not Allocated");
-						System.out
-								.println("****************************************************************");
-						requestServed = requestServed + 1;
+								.println("Resource Not available in the Location");
 					}
+
+				} else {
+					continue;
 				}
-				
-				System.out
-				.println("Total Time for executing Geo Location Algorithm : " + (System.currentTimeMillis() - startTime));
-		/*
 
-			for (int j = 0; j < resourceList.size(); j++) {
-				String requestName = resourceList.get(j).getResourceName();
-				int cpu1 = resourceList.get(j).getCpu_units();
-				int memory1 = resourceList.get(j).getMemory();
-				int storage1 = resourceList.get(j).getStorage();
-				System.out
-						.println("**********************************************************");
-				System.out.println("### Resources After Allocation ###");
-				System.out.println("Resource Name: " + requestName);
-				System.out.println("Resource CPU units: " + cpu1);
-				System.out.println("Resource Memory units: " + memory1);
-				System.out.println("Resource Storage units: " + storage1);
-				System.out.println("Full Allocation Flag: "
-						+ resourceList.get(j).isFullAllocation());
-				System.out.println("Partial Allocation Flag: "
-						+ resourceList.get(j).isPartialAllocation());
-				System.out
-						.println("**********************************************************");
-			}*/
+				// }
+				if (request.isAllocated() == true) {
+					System.out
+							.println("------------------------------------------------------------");
+					System.out.println("Request ID: " + request.getRequestId()
+							+ " is Allocated to ");
+					System.out
+							.println("------------------------------------------------------------");
+				}
+			}
 
-			resourceNames = resourceStorage.updateResourcesInHashMap(resourceList);
+			System.out
+					.println("Total Time for executing Geo Location Algorithm : "
+							+ (System.currentTimeMillis() - startTime));
+			/*
+			 * 
+			 * for (int j = 0; j < resourceList.size(); j++) { String
+			 * requestName = resourceList.get(j).getResourceName(); int cpu1 =
+			 * resourceList.get(j).getCpu_units(); int memory1 =
+			 * resourceList.get(j).getMemory(); int storage1 =
+			 * resourceList.get(j).getStorage(); System.out
+			 * .println("**********************************************************"
+			 * ); System.out.println("### Resources After Allocation ###");
+			 * System.out.println("Resource Name: " + requestName);
+			 * System.out.println("Resource CPU units: " + cpu1);
+			 * System.out.println("Resource Memory units: " + memory1);
+			 * System.out.println("Resource Storage units: " + storage1);
+			 * System.out.println("Full Allocation Flag: " +
+			 * resourceList.get(j).isFullAllocation());
+			 * System.out.println("Partial Allocation Flag: " +
+			 * resourceList.get(j).isPartialAllocation()); System.out
+			 * .println("**********************************************************"
+			 * ); }
+			 */
 
-			return "**********Following Resources Allocated*********"
-					+ resourceNames;
+			// resourceNames =
+			// resourceStorage.updateResourcesInHashMap(resourceList);
 
+			// return "**********Following Resources Allocated*********"
+			// + resourceNames;
+			if(allocatedResource!=null) {
+			System.out.println(" Name of Allocated Resource is " + allocatedResource.getResourceName());
+			} else {
+				System.out.println("Not Allocated " );
+			}
 		}
+		if(allocatedResource!=null) {
+			return allocatedResource.getResourceName();
+		} else {
+			return "Not Allocated";
+		}
+	}
+	//
+	// System.out.println("Single Request");
+	// System.out
+	// .println("------------------------------------------------------------------------------------");
+	// System.out.println("Request ID = " + request.getRequestId());
+	// System.out.println("Request CPU units = " + request.getCpu_units());
+	// System.out.println("Request Memory units = " + request.getMemory());
+	// System.out.println("Request Storage units = " + request.getStorage());
+	// System.out.println("Request OS = " + request.getOs());
+	// System.out.println("Request OS Type = " + request.getType());
+	// System.out
+	// .println("Request Geo Location = " + request.getGeolocation());
+	// System.out.println("Request Is Allocated = " + request.isAllocated());
+	// System.out
+	// .println("------------------------------------------------------------------------------------");
+
 }

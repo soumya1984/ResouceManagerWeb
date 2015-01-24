@@ -27,7 +27,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin - Bootstrap Admin Template</title>
+<title>Mobile Cloud MIaaS</title>
 
 <!-- Bootstrap CSS -->
 <link href="${context}/resources/includes/css/bootstrap.min.css"
@@ -67,14 +67,6 @@
 <link
 	href="${context}/resources/includes/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 
 
@@ -86,14 +78,12 @@
 			.getBean("instanceServ");
 			int instanceCount = instance.getInstanceCount();
 			//get the list of the instances 
-
 			List<Instance> instanceList = instance.getInstanceallList();
 			
 			CloudDaoJdbcImpl cloud = (CloudDaoJdbcImpl) context
 			.getBean("cloudServ");
 			int cloudCount = cloud.getCloudCount();
 			List<Cloud> cloudList=cloud.getCloudallList();
-
 			UserDaoJdbcImpl user = (UserDaoJdbcImpl) context
 			.getBean("userServ");
 			int userCloud = user.getUserCount();
@@ -107,24 +97,34 @@
 			    	}else{
 			    	   instanceMap.put("Active", value+1);
 			    	}
-			    }else if(instanceObj.getStatus().equals("Inactive")){	    	
-			    	Integer inactiveValue =instanceMap.get("Inactive");
-			    	if(inactiveValue==null){
-			    		instanceMap.put("Inactive", 1);
+			    }else if(instanceObj.getStatus().equalsIgnoreCase("stopped")){	    	
+			    	Integer stoppedValue =instanceMap.get("stopped");
+			    	if(stoppedValue==null){
+			    		instanceMap.put("stopped", 1);
 			    	}else{
-			    	instanceMap.put("Inactive",inactiveValue+1);
+			    	instanceMap.put("stopped",stoppedValue+1);
+			    	}
+			    }else if(instanceObj.getStatus().equals("running")){
+			    	Integer runningValue =instanceMap.get("running");
+			    	if(runningValue==null){
+			    		instanceMap.put("running", 1);
+			    	}else{
+			    	instanceMap.put("running",runningValue+1);
 			    	}
 			    }
-		
 			}
-			int inactive=0,active=0;
+			int stopped=0,active=0,running=0;
 			if(instanceMap.get("Active")!=null)
 			{
 		active= instanceMap.get("Active");
 			}
-			if(instanceMap.get("Inactive")!=null)
+			if(instanceMap.get("stopped")!=null)
 			{
-		inactive= instanceMap.get("Inactive");
+				stopped= instanceMap.get("stopped");
+			}
+			if(instanceMap.get("running")!=null)
+			{
+				running= instanceMap.get("running");
 			}
 		//	inactive = instanceMap.get("Inactive");
 	%>
@@ -141,7 +141,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="index.html">SB Admin</a>
+			<a class="navbar-brand" href="${context}/index">Admin</a>
 		</div>
 		<!-- Top Menu Items -->
 		<ul class="nav navbar-right top-nav">
@@ -236,17 +236,53 @@
 		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<ul class="nav navbar-nav side-nav">
-				<li class="active"><a href="index.html"><i
+				<li class="active"><a href="${context}/index"><i
 						class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
 				<li><form action="${context}/generator" method="post">
 						<a href="javascript:;" onclick="parentNode.submit();"><i
 							class="fa fa-fw fa-bar-chart-o"></i>
-							<div>Dynamic Request Generator....</div> </a><br />
+							<div>Dynamic Request Generator....</div> </a>
 					</form></li>
-				<li><form action="${context}/loadChart" method="post">
-						<a href="javascript:;" onclick="parentNode.submit();"><i
-							class="fa fa-fw fa-table"></i> Billing Details</a>
+				<li><a href="${context}/loadChart"><i
+							class="fa fa-fw fa-table"></i> Bills </a>
 					</form></li>
+						<li>
+						<a href="${context}/clouds"><i
+							class="fa fa-fw fa-table"></i> Clouds </a>
+					</li>
+						<li>
+						<a href="${context}/instances"><i
+							class="fa fa-fw fa-table"></i> Instances </a>
+					</li>
+						<li>
+						<a href="${context}/users"><i
+							class="fa fa-fw fa-table"></i> Users </a>
+					</li>
+						<li>
+						<a href="${context}/rates"><i
+							class="fa fa-fw fa-table"></i> Rates </a>
+					</li>
+					<li>
+						<a href="${context}/monitoring"><i
+							class="fa fa-fw fa-table"></i>CPU Monitoring </a>
+					</li>
+					<li>
+						<a href="${context}/networkin"><i
+							class="fa fa-fw fa-table"></i>Network In Monitoring </a>
+					</li>
+					<li>
+						<a href="${context}/networkout"><i
+							class="fa fa-fw fa-table"></i>Network Out Monitoring </a>
+					</li>
+					<li>
+						<a href="${context}/diskread"><i
+							class="fa fa-fw fa-table"></i>Disk Read Monitoring </a>
+					</li>
+					<li>
+						<a href="${context}/diskwrite"><i
+							class="fa fa-fw fa-table"></i>Disk Write Monitoring </a>
+					</li>
+					
 				<%-- 				<li><form action="${context}/re" method="post">
 						<a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
 					</form></li>
@@ -277,7 +313,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">
-							Dashboard :<small>Cloud Operation Overview</small>
+							Dashboard : Mobile Cloud MIaaS Overview
 						</h1>
 						<ol class="breadcrumb">
 							<li class="active"><i class="fa fa-dashboard"></i> Dashboard
@@ -315,7 +351,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="#">
+							<a href="${context}/clouds">
 								<div class="panel-footer">
 									<span class="pull-left">View Details</span> <span
 										class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -337,7 +373,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="#">
+							<a href="${context}/instances">
 								<div class="panel-footer">
 									<span class="pull-left">View Details</span> <span
 										class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -362,7 +398,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="#">
+							<a href="${context}/loadChart">
 								<div class="panel-footer">
 									<span class="pull-left">View Details</span> <span
 										class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -384,7 +420,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="#">
+							<a href="${context}/users">
 								<div class="panel-footer">
 									<span class="pull-left">View Details</span> <span
 										class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -436,7 +472,7 @@
 							<div class="panel-body">
 								<div id="morris-donut-chart"></div>
 								<div class="text-right">
-									<a href="#">View Details <i
+									<a href="${context}/instances">View Details <i
 										class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
@@ -446,7 +482,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-clock-o fa-fw"></i> Cloud Details..
+									<i class="fa fa-clock-o fa-fw"></i> Cloud Details
 								</h3>
 							</div>
 							<div class="panel-body">
@@ -482,7 +518,7 @@
 										</table>
 									</div>
 									<div class="text-right">
-										<a href="#">View All <i
+										<a href="${context}/clouds">View All <i
 											class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
@@ -532,7 +568,7 @@
 									</table>
 								</div>
 								<div class="text-right">
-									<a href="#">View All  <i
+									<a href="${context}/instances">View All  <i
 										class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>
@@ -540,7 +576,6 @@
 					</div>
 				</div>
 				<!-- /.row -->
-
 			</div>
 			<!-- /.container-fluid -->
 
@@ -560,10 +595,15 @@
 		,
 				backgroundColor : '#40FF00'
 			}, {
-				label : "Inactive Instances",
+				label : "Stopped Instances",
 				value :
-	<%=inactive%>
-		} ],
+	<%=stopped%>
+		},
+		{
+			label : "Running Instances",
+			value :
+		<%=running%>
+	}],
 			resize : true
 		});
 	</script>

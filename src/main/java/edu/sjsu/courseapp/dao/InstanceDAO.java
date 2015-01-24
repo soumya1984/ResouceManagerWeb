@@ -27,4 +27,6 @@ public interface InstanceDAO {
 	
 	public int updateBillOfAllInstances();
 	
+	public Integer findMaxInstanceId();
+	
 }

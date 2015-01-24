@@ -44,6 +44,14 @@ public class XmlStringConvertor {
 			requestInstance.setRequestId(Integer
 					.parseInt(getCharacterDataFromElement(line)));
 
+			NodeList userId = element.getElementsByTagName("userId");
+			line = (Element) userId.item(0);
+			System.out.println("userId: "
+					+ getCharacterDataFromElement(line));
+
+			requestInstance.setUserId(Integer
+					.parseInt(getCharacterDataFromElement(line)));
+
 			NodeList cpu = element.getElementsByTagName("cpu");
 			line = (Element) cpu.item(0);
 			System.out.println("cpu: " + getCharacterDataFromElement(line));
@@ -66,7 +74,12 @@ public class XmlStringConvertor {
 			line = (Element) os.item(0);
 			System.out.println("os: " + getCharacterDataFromElement(line));
 			requestInstance.setOs(getCharacterDataFromElement(line));
-			
+
+			NodeList country = element.getElementsByTagName("country");
+			line = (Element) country.item(0);
+			System.out.println("country: " + getCharacterDataFromElement(line));
+			requestInstance.setGeolocation(getCharacterDataFromElement(line));
+
 			
 			NodeList algoritm = element.getElementsByTagName("algorithm");
 			line = (Element) algoritm.item(0);

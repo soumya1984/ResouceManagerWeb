@@ -3,13 +3,22 @@ package com.sjsu.courseapp.loadbalancer;
 public class ResourceRequest {
 
 	private int requestId;
-	private int locationId;
+	private String geolocation;
 	private String os;
 	private String type;
 	private int cpu_units;
 	private int memory;
 	private int storage;
 	private boolean isAllocated;
+	private int userId;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	private String algorithm;
 
@@ -31,12 +40,12 @@ public class ResourceRequest {
 		this.requestId = requestId;
 	}
 
-	public int getLocationId() {
-		return locationId;
+	public String getGeolocation() {
+		return geolocation;
 	}
 
-	public void setLocationId(int locationId) {
-		this.locationId = locationId;
+	public void setGeolocation(String geolocation) {
+		this.geolocation = geolocation;
 	}
 
 	public int getCpu_units() {

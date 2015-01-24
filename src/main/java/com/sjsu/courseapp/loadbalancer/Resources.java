@@ -5,15 +5,51 @@ public class Resources {
 	private int cpu_units;
 	private int memory;
 	private int storage;
-	private int locationId;
+	private int cloudId;
+	private int instanceId;
+	private String geolocation;
 	private String resourceName;
 	private boolean fullAllocation;
 	private boolean partialAllocation;
 	private String os;
 	private String type;
+	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	private int userId;
+
+	public int getCloudId() {
+		return cloudId;
+	}
+
+	public void setCloudId(int cloudId) {
+		this.cloudId = cloudId;
+	}
+
+	public int getInstanceId() {
+		return instanceId;
+	}
+
+	public void setInstanceId(int instanceId) {
+		this.instanceId = instanceId;
+	}
 
 	public String getOs() {
 		return os;
+	}
+
+	public String getGeolocation() {
+		return geolocation;
+	}
+
+	public void setGeolocation(String geolocation) {
+		this.geolocation = geolocation;
 	}
 
 	public void setOs(String os) {
@@ -52,14 +88,6 @@ public class Resources {
 
 	public void setStorage(int storage) {
 		this.storage = storage;
-	}
-
-	public int getLocationId() {
-		return locationId;
-	}
-
-	public void setLocationId(int locationId) {
-		this.locationId = locationId;
 	}
 
 	public String getResourceName() {

@@ -1,10 +1,24 @@
-<!--@author Sudip githubid:sudipk -->
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="edu.sjsu.courseapp.domain.User"%>
+<%@page import="com.amazonaws.services.ec2.model.InstanceCount"%>
+<%@page import="com.sjsu.courseapp.cloudwatch.AwsCloudWatch"%>
+<%@page import="edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl"%>
+<%@page import="edu.sjsu.courseapp.dao.jdbc.CloudDaoJdbcImpl"%>
+<%@page import="com.amazonaws.services.cloudwatch.model.Datapoint"%>
+<%@page
+	import="org.springframework.context.support.ClassPathXmlApplicationContext"%>
+<%@page import="org.springframework.context.ApplicationContext"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="context" scope="request"
 	value="<%=request.getContextPath()%>" />
+<%@ page import="java.util.List"%>
+<%@ page import="edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl"%>
+<%@ page import="java.util.ArrayList"%>;
 <html lang="en">
 
 <head>
@@ -15,8 +29,9 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Dynamic Request Generator</title>
+<title>Monitoring Metrics of Amazon EC2 Instance </title>
 
+<!-- Bootstrap Core CSS -->
 <!-- Bootstrap CSS -->
 <link href="${context}/resources/includes/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -55,21 +70,53 @@
 <link
 	href="${context}/resources/includes/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- Include jQuery Popup Overlay -->
+
 <script
-	src="http://vast-engineering.github.io/jquery-popup-overlay/jquery.popupoverlay.js"></script>
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.js"></script>
+<script
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.resize.js"></script>
+<script
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="${context}/resources/includes/js/plugins/flot/flot-data.js"></script>
 
 </head>
 
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#my_popup').popup('show');
-	});
-</script>
-
 <body>
-
+<c:set var="instanceId" scope="request" value="${instanceId}" />
+	<%
+	
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+			"root-context.xml");
+			UserDaoJdbcImpl users = (UserDaoJdbcImpl) context
+			.getBean("userServ");
+			
+			List<User> userList = users.getUserallList();
+			String result ="[";
+		for(User user:userList){
+			       result=result+"{"+"y:'"+user.getName()+"', ";
+		       result=result+"Bill:"+user.getTotalbill()+"},";
+			}
+			result=result+"]";
+			//String a = {instanceId}; 
+			//System.out.println(${instanceId});
+			
+			
+			//List<Datapoint> dataList = AwsCloudWatch.getCloudWatchMonitoringData(request.getParameter("instanceId"));
+			
+		//String result1 = "[";
+		//for (Datapoint data : dataList) {
+			//result1 = result1 + "{" + "time:'" + data.getTimestamp()
+				//	+ "', ";
+			//result1 = result1 + "maximum:" + data.getMaximum() + ",";
+			//result1 = result1 + "minimum:" + data.getMinimum() + ",";
+			//result1 = result1 + "average:" + data.getAverage() + "},";
+		//}
+		//result1 = result1 + "]";
+	%>
+	<c:set var="data" scope="request"
+	value="<%=result%>" />
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -102,7 +149,7 @@
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
 									</p>
-									<p>Lorem ipsum dolor sit amet, consectetur...</p>
+									<p>Instance c1mi1i1 is up...</p>
 								</div>
 							</div>
 					</a></li>
@@ -187,46 +234,98 @@
 
 			<div class="container-fluid">
 
-				<!-- Page Heading -->
+				<font size="6">Monitoring Metrics of Amazon EC2 Instance ${instanceId}</font>
 				<div class="row">
 					<div class="col-lg-12">
+						<h1 class="page-header"></h1>
 						<ol class="breadcrumb">
-							<li><i class="fa fa-dashboard"></i> <a href="${context}/index"><span><lebel>Current Rates..</lebel></span></a></li>
+							<li><i class="fa fa-dashboard"></i> <a href="${context}/index">Dashboard</a>
+							</li>
 						</ol>
 					</div>
 				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<table cellpadding="10" class="table table-striped">
-						<tr>
-
-							<th>Rate ID</th>
-							<th>Type</th>
-							<th>Component</th>
-							<th>Cost/Min per Unit</th>
-
-						</tr>
-						<c:forEach var="rate_list" items="${rate_list}">
-							<tr>
-								<td>${rate_list.getRateid()}</td>
-								<td>${rate_list.getType()}</td>
-								<td>${rate_list.getComponent()}</td>
-								<td>$${rate_list.getCostpermin()}</td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
+				<center><font size=5><bold>CPU Utilization (%) of EC2 Instance ${instanceId}</bold></font></center>
+				<div id="cpuchartData"></div>
+				<script>
+					Morris.Line({
+						element : 'cpuchartData',
+						data : ${cpuchartData},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average CPU' , 'Maximum CPU' , 'Minimum CPU' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : '%'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Network In Bytes Metric of EC2 Instance ${instanceId}</bold></font></center>
+				<div id="nwinchartData"></div>
+				<script>
+					Morris.Line({
+						element : 'nwinchartData',
+						data : ${nwinchartData},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average' , 'Maximum' , 'Minimum' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Network Out Bytes Metric of EC2 Instance ${instanceId}</bold></font></center>
+				<div id="nwoutchartData"></div>
+				<script>
+					Morris.Line({
+						element : 'nwoutchartData',
+						data : ${nwoutchartData},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average' , 'Maximum' , 'Minimum' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Disk Read Bytes Metric of EC2 Instance ${instanceId}</bold></font></center>
+				<div id="diskreadchartData"></div>
+				<script>
+					Morris.Line({
+						element : 'diskreadchartData',
+						data : ${diskreadchartData},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average' , 'Maximum' , 'Minimum' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Disk Write Bytes Metric of EC2 Instance ${instanceId}</bold></font></center>
+				<div id="diskwritechartData"></div>
+				<script>
+					Morris.Line({
+						element : 'diskwritechartData',
+						data : ${diskwritechartData},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average' , 'Maximum' , 'Minimum' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<!-- /#page-wrapper -->
 
 			</div>
-		</div>
-		<!-- /.container-fluid -->
-		<div id="my_popup">Thank for submitting the request</div>
-	</div>
-	<!-- /#page-wrapper -->
-
-	</div>
-
+			<!-- /#wrapper -->
 </body>
 
 </html>

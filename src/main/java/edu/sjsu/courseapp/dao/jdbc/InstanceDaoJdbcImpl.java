@@ -4,6 +4,7 @@ package edu.sjsu.courseapp.dao.jdbc;
  * @author Sudip githubid:sudipk
  * 
  */
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,8 +74,11 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 			map.put("uptime", instance.getUptime());
 			map.put("bill", instance.getBill());
 			map.put("userid", instance.getUserid());
-			int newId = jdbcInsert.execute(map);
-			instance.setInstanceid(newId);
+			int newId = (findMaxInstanceId().intValue()+1);
+			map.put("instanceid", newId);
+			//instance.setInstanceid(newId);
+			newId = jdbcInsert.execute(map);
+			//instance.setInstanceid(newId);
 		}
 	}
 
@@ -84,6 +88,12 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 		return jdbcTemplate.queryForObject(sql, String.class, id);
 	}
 
+	@Override
+	public Integer findMaxInstanceId() {
+		String sql = "select max(instanceid) from instance ";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
+	
 	@Override
 	public Instance findInstanceByName(String instanceName) {
 		int instancesFound;
@@ -123,7 +133,7 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 	
 	
 	public int updateInstance(Instance instance, int userid) {
-		String sql = "update instance set userid=:userid where instanceid=:id";
+		String sql = "update instance set userid:=userid where instanceid=:id";
 		int id;
 		MapSqlParameterSource params;
 		int rowsAffected;
@@ -131,6 +141,43 @@ public class InstanceDaoJdbcImpl implements InstanceDAO {
 		id = instance.getInstanceid();
 
 		params = new MapSqlParameterSource("id", id);
+		params.addValue("userid", userid);
+		rowsAffected = namedTemplate.update(sql, params);
+		return rowsAffected;
+	}
+	
+	public int updateInstanceDetails(Instance instance) {
+		String sql = "update instance set name=:name, status=:status, type=:type, os=:os, publicip=:publicip, privateip=:privateip , uptime=:uptime where instanceid=:id";
+		int id;
+		MapSqlParameterSource params;
+		int rowsAffected;
+
+		id = instance.getInstanceid();
+		String name = instance.getName();
+		String status = instance.getStatus();
+		String type = instance.getType();
+		String os = instance.getOs();
+		String publicip = instance.getPublicip();
+		String privateip = instance.getPrivateip();
+		Time uptime = instance.getUptime();
+		params = new MapSqlParameterSource("id", id);
+		params.addValue("name", name);
+		params.addValue("status", status);
+		params.addValue("type", type);
+		params.addValue("os", os);
+		params.addValue("publicip", publicip);
+		params.addValue("privateip", privateip);
+		params.addValue("uptime", uptime);
+		rowsAffected = namedTemplate.update(sql, params);
+		return rowsAffected;
+	}
+
+	public int updateInstance(int instanceid, int userid) {
+		String sql = "update instance set userid=:userid where instanceid=:id";
+		MapSqlParameterSource params;
+		int rowsAffected;
+
+		params = new MapSqlParameterSource("id", instanceid);
 		params.addValue("userid", userid);
 		rowsAffected = namedTemplate.update(sql, params);
 		return rowsAffected;

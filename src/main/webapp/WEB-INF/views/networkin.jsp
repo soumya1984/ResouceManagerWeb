@@ -1,10 +1,24 @@
-<!--@author Sudip githubid:sudipk -->
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="edu.sjsu.courseapp.domain.User"%>
+<%@page import="com.amazonaws.services.ec2.model.InstanceCount"%>
+<%@page import="com.sjsu.courseapp.cloudwatch.AwsCloudWatch"%>
+<%@page import="edu.sjsu.courseapp.dao.jdbc.UserDaoJdbcImpl"%>
+<%@page import="edu.sjsu.courseapp.dao.jdbc.CloudDaoJdbcImpl"%>
+<%@page import="com.amazonaws.services.cloudwatch.model.Datapoint"%>
+<%@page
+	import="org.springframework.context.support.ClassPathXmlApplicationContext"%>
+<%@page import="org.springframework.context.ApplicationContext"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="context" scope="request"
 	value="<%=request.getContextPath()%>" />
+<%@ page import="java.util.List"%>
+<%@ page import="edu.sjsu.courseapp.dao.jdbc.InstanceDaoJdbcImpl"%>
+<%@ page import="java.util.ArrayList"%>;
 <html lang="en">
 
 <head>
@@ -15,8 +29,9 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Dynamic Request Generator</title>
+<title>Network In Bytes Metric of Amazon EC2 Instances</title>
 
+<!-- Bootstrap Core CSS -->
 <!-- Bootstrap CSS -->
 <link href="${context}/resources/includes/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -55,21 +70,21 @@
 <link
 	href="${context}/resources/includes/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- Include jQuery Popup Overlay -->
+
 <script
-	src="http://vast-engineering.github.io/jquery-popup-overlay/jquery.popupoverlay.js"></script>
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.js"></script>
+<script
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.resize.js"></script>
+<script
+	src="${context}/resources/includes/js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="${context}/resources/includes/js/plugins/flot/flot-data.js"></script>
 
 </head>
 
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#my_popup').popup('show');
-	});
-</script>
-
 <body>
-
+<c:set var="instanceId" scope="request" value="${instanceId}" />
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -102,7 +117,7 @@
 									<p class="small text-muted">
 										<i class="fa fa-clock-o"></i> Yesterday at 4:32 PM
 									</p>
-									<p>Lorem ipsum dolor sit amet, consectetur...</p>
+									<p>Instance c1mi1i1 is up...</p>
 								</div>
 							</div>
 					</a></li>
@@ -187,46 +202,98 @@
 
 			<div class="container-fluid">
 
-				<!-- Page Heading -->
+				<font size="8">Network In Bytes Metric of Amazon EC2 Instances </font>
 				<div class="row">
 					<div class="col-lg-12">
+						<h1 class="page-header"></h1>
 						<ol class="breadcrumb">
-							<li><i class="fa fa-dashboard"></i> <a href="${context}/index"><span><lebel>Current Rates..</lebel></span></a></li>
+							<li><i class="fa fa-dashboard"></i> <a href="${context}/index">Dashboard</a>
+							</li>
 						</ol>
 					</div>
 				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<table cellpadding="10" class="table table-striped">
-						<tr>
-
-							<th>Rate ID</th>
-							<th>Type</th>
-							<th>Component</th>
-							<th>Cost/Min per Unit</th>
-
-						</tr>
-						<c:forEach var="rate_list" items="${rate_list}">
-							<tr>
-								<td>${rate_list.getRateid()}</td>
-								<td>${rate_list.getType()}</td>
-								<td>${rate_list.getComponent()}</td>
-								<td>$${rate_list.getCostpermin()}</td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
+				<center><font size=5><bold>Instance ${instanceId1}</bold></font></center>
+				<div id="cloudwatch1"></div>
+				<script>
+					Morris.Line({
+						element : 'cloudwatch1',
+						data : ${chartData1},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average' , 'Maximum' , 'Minimum' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Instance ${instanceId2}</bold></font></center>
+				<div id="cloudwatch2"></div>
+				<script>
+					Morris.Line({
+						element : 'cloudwatch2',
+						data : ${chartData2},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average' , 'Maximum' , 'Minimum' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Instance ${instanceId3}</bold></font></center>
+				<div id="cloudwatch3"></div>
+				<script>
+					Morris.Line({
+						element : 'cloudwatch3',
+						data : ${chartData3},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average ' , 'Maximum ' , 'Minimum ' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Instance ${instanceId4}</bold></font></center>
+				<div id="cloudwatch4"></div>
+				<script>
+					Morris.Line({
+						element : 'cloudwatch4',
+						data : ${chartData4},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average ' , 'Maximum ' , 'Minimum ' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<br>
+				<br>
+				<center><font size=5><bold>Instance ${instanceId5}</bold></font></center>
+				<div id="cloudwatch5"></div>
+				<script>
+					Morris.Line({
+						element : 'cloudwatch5',
+						data : ${chartData5},
+						xkey : 'time',
+						ykeys : [ 'average', 'maximum' , 'minimum'],
+						labels : [ 'Average ' , 'Maximum ' , 'Minimum ' ],
+						parseTime : false,
+						ymin : 0,
+						postUnits : 'Bytes'
+					});
+				</script>
+				<!-- /#page-wrapper -->
 
 			</div>
-		</div>
-		<!-- /.container-fluid -->
-		<div id="my_popup">Thank for submitting the request</div>
-	</div>
-	<!-- /#page-wrapper -->
-
-	</div>
-
+			<!-- /#wrapper -->
 </body>
 
 </html>
